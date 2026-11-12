@@ -1,0 +1,942 @@
+# MASTER PROJECT DEVELOPMENT PROMPT — SECURECROSS V2.0
+
+## 1. Project Identity
+
+**Project Name:** SecureCross
+
+**Project Title:** AI-Powered Real-Time Cross-Branch Identity Verification and Secure Cash Withdrawal Authorization
+
+**Project Type:** Full-stack banking technology prototype with biometric-verification integration and transaction-security controls.
+
+**Primary Objective:**
+
+Develop a complete, functional, security-focused application that demonstrates how an eligible banking customer who does not have their physical debit card available could request a cash withdrawal at a non-home branch.
+
+The application must verify the customer's identity through live face verification, liveness detection and additional biometric verification within the same verification stage. It must then perform a real-time identity check through a simulated home-branch authentication service, execute transaction-security checks and authorize or reject the withdrawal request.
+
+The prototype must be designed with future integration into bank-approved infrastructure in mind.
+
+**Important:** This is an academic prototype. Do not connect to real bank accounts, production banking APIs or real customer biometric databases without explicit authorization.
+
+---
+
+## 2. Non-Negotiable Project Rules
+
+1. Preserve the original SecureCross concept and workflow.
+2. Do not change the technology stack listed in this prompt.
+3. Do not replace React with another frontend framework.
+4. Do not replace FastAPI with another backend framework.
+5. Do not replace PostgreSQL with SQLite as the primary database.
+6. Build a real, connected frontend and backend—not a static visual demonstration.
+7. Implement the database schema and persistence rather than storing all data in temporary memory.
+8. Clearly distinguish implemented features, simulated features and planned integrations.
+9. Never claim that biometric verification, AI, security tests or bank integration work unless implemented and tested.
+10. Build the project incrementally, keeping the application runnable at every major milestone.
+11. Do not skip error handling, security checks, tests, documentation or setup instructions.
+12. Do not redesign the original withdrawal workflow without explicit approval.
+13. Never store raw biometric images, biometric templates, passwords or secrets unnecessarily.
+14. Use synthetic customer records and simulated bank services during development.
+15. Treat ₹50,000 per day as a configurable prototype policy, not a universal banking entitlement.
+
+---
+
+## 3. Locked Technology Stack — V2.0
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- React Router
+- A consistent, accessible component and styling system
+- Vitest
+- React Testing Library
+
+### Backend
+
+- Python
+- FastAPI
+- Pydantic
+- SQLAlchemy
+- Alembic
+- Uvicorn
+- Pytest
+- HTTPX
+
+### Database
+
+- PostgreSQL
+- SQLAlchemy ORM
+- Alembic database migrations
+
+### Computer Vision and Biometric Verification
+
+- OpenCV for camera and image processing
+- InsightFace / ArcFace as a candidate face-matching solution, subject to model, package and commercial licensing review
+- An evaluated anti-spoofing or liveness-detection model or SDK
+- A separate biometric verification adapter
+- A mock biometric adapter for initial development and automated testing
+
+Do not treat OpenCV alone as a complete face-recognition or liveness solution. Do not claim that an ordinary webcam performs fingerprint or other hardware-based biometric verification. If suitable biometric hardware is unavailable, simulate that verification result and clearly label it.
+
+### Authentication and Security
+
+- OAuth 2.0 / OpenID Connect integration points for future identity-provider integration
+- Role-Based Access Control (RBAC)
+- TLS for deployed communications
+- Established cryptographic libraries
+- Signed, short-lived transaction authorization tokens
+- Replay prevention
+- Server-side transaction-limit enforcement
+- Rate limiting
+- Structured security audit logs
+- Secure configuration and secret management
+- Parameterized database operations
+- Dependency and vulnerability checks
+
+### Deployment and Development
+
+- Docker
+- Docker Compose
+- Git
+- GitHub
+- VS Code
+- Environment-specific configuration
+
+Do not require a paid cloud service for the local prototype. Keep deployment portable to compatible bank-approved servers, while acknowledging that the bank may mandate different enterprise platforms.
+
+---
+
+## 4. Original SecureCross Workflow — Must Remain Unchanged
+
+Implement this exact sequence.
+
+### Step 1: Customer visits a non-home branch
+
+The customer requests cash at a branch other than their registered home branch because their physical debit card is unavailable.
+
+The branch operator initiates a withdrawal request and selects the branch.
+
+### Step 2: Combined live face, liveness and biometric verification
+
+Treat these as one identity-verification stage, not three separate workflow stages.
+
+The system must support:
+
+- Live face capture through a permitted camera interface.
+- Face matching against an authorized enrolled reference.
+- Liveness or presentation-attack detection.
+- Additional biometric verification through a clearly defined adapter.
+- An overall verification decision based on the configured checks.
+
+If any mandatory verification fails, reject or pause the request according to policy.
+
+Never interpret a client-supplied Boolean such as `face_verified: true` as sufficient proof of identity. The backend must trust only results produced by its authorized verification components.
+
+### Step 3: Real-time home-branch identity check
+
+Implement a simulated home-branch authentication service.
+
+It must verify the synthetic customer's registered identity and relevant account status through a backend-controlled API.
+
+Create a clear service interface so the simulator can later be replaced with an authorized bank integration without changing the main withdrawal workflow.
+
+Handle unavailable services, timeouts, invalid responses and unknown customers safely.
+
+### Step 4: Transaction-security checks
+
+Before authorization, validate:
+
+- Customer and account status.
+- Identity-verification outcome.
+- Additional biometric verification outcome.
+- Available balance.
+- Requested withdrawal amount.
+- Applicable transaction rules.
+- Remaining daily withdrawal allowance.
+- Risk flags and configured risk policies.
+- Authorization expiry and transaction binding.
+- Replay or duplicate-redemption attempts.
+- Branch and operator permissions.
+
+The backend must perform the authoritative checks. Frontend validation is only for usability.
+
+### Step 5: Authorized withdrawal
+
+If all mandatory checks pass, the application may authorize and simulate redemption of the withdrawal.
+
+The proposed maximum is ₹50,000 per customer per day in the prototype, subject to all other rules.
+
+Enforce the daily limit server-side and atomically in PostgreSQL to prevent concurrent requests from exceeding the permitted allowance.
+
+Do not imply that a successful prototype transaction moves real money or dispenses physical cash.
+
+---
+
+## 5. Functional Requirements
+
+Implement all of the following.
+
+### Customer and branch management
+
+- Seed synthetic customer records.
+- Seed home and non-home branches.
+- Link each customer to a registered home branch.
+- Track account status and simulated available balance.
+- Provide controlled administrative management of synthetic records.
+
+### Verification workflow
+
+- Capture or receive face-verification input through the frontend.
+- Route verification through a backend-controlled interface.
+- Support face matching and liveness checks where an evaluated model is configured.
+- Support an additional biometric-verification adapter.
+- Provide a deterministic mock mode for development and testing.
+- Record verification outcomes without exposing sensitive biometric data.
+- Reject unknown, mismatched or unverified identities.
+
+### Withdrawal workflow
+
+- Select a non-home branch.
+- Identify a synthetic customer.
+- Request a withdrawal amount.
+- Run the complete verification and transaction-check sequence.
+- Generate a signed, short-lived authorization only after successful checks.
+- Bind the authorization to the customer session, branch, amount and transaction identifier.
+- Redeem the authorization once.
+- Recheck balance, daily allowance and account status during redemption.
+- Atomically update the simulated account balance and transaction record.
+- Reject replayed, expired, altered or incorrectly bound authorization.
+- Return a clear transaction status and reference identifier.
+
+### Audit and monitoring
+
+Record appropriate events, including:
+
+- Withdrawal request created.
+- Verification initiated and completed.
+- Verification rejected.
+- Transaction authorization issued.
+- Withdrawal redemption succeeded or failed.
+- Limit violation.
+- Replay attempt.
+- Service failure.
+- Administrative action.
+
+Audit logs must not contain passwords, signing keys, full biometric samples or unnecessary sensitive information.
+
+---
+
+## 6. Frontend Requirements
+
+Build a complete React and TypeScript application.
+
+### Screen 1: Login
+
+- Operator login interface.
+- Role-aware navigation.
+- Development authentication mode clearly labelled.
+- No hardcoded production credentials.
+- Future OIDC integration point.
+
+### Screen 2: Dashboard
+
+Show:
+
+- Total simulated withdrawal requests.
+- Successful transactions.
+- Rejected transactions.
+- Pending or failed verification requests.
+- Recent transaction activity.
+- Current branch and operator information.
+
+All displayed figures must come from actual application data, not invented dashboard values.
+
+### Screen 3: New Withdrawal
+
+Provide:
+
+- Non-home branch selection.
+- Synthetic customer lookup.
+- Requested withdrawal amount.
+- Input validation.
+- Clear workflow progress.
+
+### Screen 4: Identity Verification
+
+Show the combined verification stage:
+
+- Camera preview and capture controls where supported.
+- Face matching status.
+- Liveness status.
+- Additional biometric verification status.
+- Overall verification decision.
+
+Clearly label mock results as simulated. Never display a mock result as a successful real biometric match.
+
+### Screen 5: Home-Branch Verification
+
+Show:
+
+- Verification request status.
+- Simulated home-branch response.
+- Account eligibility status.
+- Safe error messages if the service fails.
+
+### Screen 6: Transaction Security
+
+Show the outcomes of:
+
+- Account-status checks.
+- Balance checks.
+- Daily withdrawal limit.
+- Risk policy.
+- Authorization validity.
+- Duplicate or replay protection.
+
+Do not expose internal secrets or unnecessarily sensitive risk signals to unauthorized users.
+
+### Screen 7: Transaction Result
+
+Display:
+
+- Approved or rejected status.
+- Transaction reference.
+- Simulated withdrawal amount.
+- Remaining daily allowance when appropriate.
+- Reason for rejection when safe to disclose.
+
+### Screen 8: Transaction History
+
+Show:
+
+- Transaction identifier.
+- Customer reference.
+- Branch.
+- Amount.
+- Timestamp.
+- Status.
+
+Apply role-based access controls.
+
+### Screen 9: Security Audit
+
+Provide an authorized view of security events, including filters for date, event type and transaction reference.
+
+### Frontend quality
+
+The application must have:
+
+- Responsive layout.
+- Consistent visual design.
+- Accessible labels and keyboard navigation.
+- Loading states.
+- Empty states.
+- Error messages.
+- Success and failure notifications.
+- API connection error handling.
+- Confirmation before important actions.
+- No non-functional placeholder buttons.
+
+---
+
+## 7. Backend API Design
+
+Create versioned APIs under `/api/v1`.
+
+At minimum, implement endpoints equivalent to the following.
+
+### Authentication
+
+- `POST /api/v1/auth/login`
+- `POST /api/v1/auth/logout`
+- `GET /api/v1/auth/me`
+
+Use secure development authentication locally and define the integration boundary for an approved identity provider.
+
+### Branches and customers
+
+- `GET /api/v1/branches`
+- `GET /api/v1/customers`
+- `GET /api/v1/customers/{customer_id}`
+
+Limit access to authorized roles. Avoid exposing unnecessary personal data.
+
+### Verification
+
+- `POST /api/v1/verification/sessions`
+- `POST /api/v1/verification/sessions/{session_id}/face`
+- `POST /api/v1/verification/sessions/{session_id}/biometric`
+- `GET /api/v1/verification/sessions/{session_id}`
+
+These endpoints must represent the same combined identity-verification stage. The separate endpoints are internal steps, not separate customer workflow stages.
+
+Use secure session binding, expiry, request validation and backend-produced verification results. Use the mock adapter where real verification is not configured.
+
+### Withdrawals
+
+- `POST /api/v1/withdrawals`
+- `GET /api/v1/withdrawals/{transaction_id}`
+- `POST /api/v1/withdrawals/{transaction_id}/authorize`
+- `POST /api/v1/withdrawals/{transaction_id}/redeem`
+- `GET /api/v1/withdrawals`
+
+Use authenticated requests, permission checks, request IDs and appropriate idempotency controls.
+
+### Limits and account status
+
+- `GET /api/v1/customers/{customer_id}/withdrawal-limit`
+- `GET /api/v1/customers/{customer_id}/account-status`
+
+Enforce authorization on every request.
+
+### Audit and administration
+
+- `GET /api/v1/audit-events`
+- `GET /api/v1/health`
+
+Do not expose administrative mutation operations without authentication and explicit authorization.
+
+Document the APIs through OpenAPI and Swagger UI.
+
+Use consistent HTTP status codes, typed request and response schemas, safe error messages and structured logging.
+
+---
+
+## 8. PostgreSQL Database Design
+
+Design normalized tables with foreign keys, constraints, appropriate indexes and migrations.
+
+Create tables equivalent to the following.
+
+### `branches`
+
+Fields:
+
+- `id`
+- `branch_code`
+- `name`
+- `location`
+- `status`
+- `created_at`
+
+### `customers`
+
+Fields:
+
+- `id`
+- `customer_reference`
+- `full_name` using synthetic data only
+- `home_branch_id`
+- `account_status`
+- `available_balance`
+- `daily_withdrawal_limit`
+- `created_at`
+- `updated_at`
+
+Use fixed-precision numeric types for monetary values. Do not use floating-point arithmetic for balances.
+
+### `operators`
+
+Fields:
+
+- `id`
+- `username`
+- `password_hash` if local password authentication is used
+- `role`
+- `branch_id`
+- `status`
+- `created_at`
+
+Never store plaintext passwords.
+
+### `verification_sessions`
+
+Fields:
+
+- `id`
+- `customer_id`
+- `branch_id`
+- `session_status`
+- `face_result`
+- `liveness_result`
+- `additional_biometric_result`
+- `overall_result`
+- `failure_reason_code`
+- `created_at`
+- `expires_at`
+
+Do not store raw biometric samples in this table.
+
+### `transactions`
+
+Fields:
+
+- `id`
+- `transaction_reference`
+- `customer_id`
+- `branch_id`
+- `operator_id`
+- `verification_session_id`
+- `amount`
+- `status`
+- `created_at`
+- `authorized_at`
+- `redeemed_at`
+
+Use constraints to prevent invalid transaction states and amounts.
+
+### `authorization_tokens`
+
+Fields:
+
+- `id`
+- `transaction_id`
+- `token_jti`
+- `issued_at`
+- `expires_at`
+- `redeemed_at`
+- `status`
+
+Store only the minimum necessary token metadata. Never store signing secrets in the database.
+
+### `daily_withdrawal_usage`
+
+Track daily usage with an appropriate customer/date key and atomic updates or derive it from committed transaction records with correct locking.
+
+Ensure concurrent transactions cannot bypass the daily limit.
+
+### `audit_events`
+
+Fields:
+
+- `id`
+- `event_type`
+- `actor_id`
+- `transaction_id`
+- `event_timestamp`
+- `outcome`
+- `reason_code`
+- `correlation_id`
+- `metadata` with a strict allowlist of safe fields
+
+Protect audit records from unauthorized modification.
+
+Use Alembic to create and manage schema migrations. Provide synthetic seed data through a repeatable development-only command.
+
+---
+
+## 9. Security Architecture
+
+Implement defense in depth.
+
+### Authentication and authorization
+
+- Require authentication for protected operations.
+- Enforce role and branch permissions server-side.
+- Use short-lived access credentials and secure session handling.
+- Define an OIDC integration boundary for future bank deployment.
+- Prevent users from accessing transactions belonging to unauthorized customers or branches.
+
+### Transaction authorization
+
+- Generate authorization only after all required checks succeed.
+- Use a standard, well-maintained cryptographic library.
+- Bind authorization to the intended transaction, customer, branch and amount.
+- Use a unique identifier and prevent duplicate redemption.
+- Enforce expiration and permitted transaction states.
+- Use database transactions and row-level locking or equivalent atomic concurrency controls.
+- Recheck account status, available balance and daily allowance at redemption.
+- Make redemption idempotent and prevent double debiting.
+
+### Biometric security
+
+- Use authorized enrollment references.
+- Keep face matching, liveness and additional biometric checks distinct internally but combined in the identity-verification stage.
+- Do not trust client-reported verification success.
+- Protect biometric data in transit and at rest where retained.
+- Avoid retaining raw biometric samples unless necessary, authorized and appropriately protected.
+- Evaluate false acceptance, false rejection and presentation-attack performance before making accuracy claims.
+- Do not claim that liveness detection prevents every possible spoofing attack.
+
+### Operational security
+
+- Fail closed if a mandatory verification or authorization service is unavailable.
+- Apply request validation, rate limiting and timeouts.
+- Use parameterized queries.
+- Store secrets outside source control.
+- Never commit `.env` files containing secrets.
+- Restrict CORS to configured origins.
+- Disable debug mode in deployment.
+- Use structured logs and safe error messages.
+- Keep dependencies pinned and run vulnerability checks.
+- Configure HTTPS and appropriate security headers in deployed environments.
+
+### Bank integration boundary
+
+Create interface contracts for:
+
+- Home-branch identity verification.
+- Account-status and balance queries.
+- Biometric verification.
+- Transaction authorization.
+- Audit and monitoring integration.
+
+Use simulated implementations locally. Replace them only through explicit, authorized bank integrations.
+
+---
+
+## 10. AI and Biometric Integration Strategy
+
+Do not make the entire application depend on an unverified AI model.
+
+Create replaceable interfaces for:
+
+1. Face feature extraction and matching.
+2. Liveness or presentation-attack detection.
+3. Additional biometric verification.
+4. Risk evaluation.
+
+For the first runnable milestone, use deterministic mock adapters and clearly labelled synthetic results.
+
+Then evaluate a compatible face model and liveness component. Document the model version, license, dependencies, test conditions and known limitations.
+
+If a model cannot run reliably on the target laptop, preserve the interface and use the mock adapter for the remaining workflow. Do not silently substitute simulated results for actual inference.
+
+The risk engine must use explicit, documented rules initially. Do not call it a trained AI model unless a model has genuinely been trained or evaluated for that purpose.
+
+---
+
+## 11. Project Folder Structure
+
+Create a maintainable monorepo similar to the following:
+
+```text
+securecross/
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── features/
+│   │   │   ├── auth/
+│   │   │   ├── dashboard/
+│   │   │   ├── verification/
+│   │   │   ├── withdrawals/
+│   │   │   ├── transactions/
+│   │   │   └── audit/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── types/
+│   │   └── main.tsx
+│   ├── tests/
+│   ├── package.json
+│   └── vite.config.ts
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── v1/
+│   │   ├── core/
+│   │   ├── db/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── repositories/
+│   │   ├── services/
+│   │   │   ├── identity/
+│   │   │   ├── biometrics/
+│   │   │   ├── home_branch/
+│   │   │   ├── transactions/
+│   │   │   └── audit/
+│   │   ├── security/
+│   │   ├── adapters/
+│   │   └── main.py
+│   ├── migrations/
+│   ├── tests/
+│   ├── pyproject.toml
+│   └── alembic.ini
+├── docs/
+│   ├── requirements.md
+│   ├── architecture.md
+│   ├── database.md
+│   ├── api.md
+│   ├── threat_model.md
+│   ├── security_test_plan.md
+│   ├── evaluation_report.md
+│   └── demo_script.md
+├── scripts/
+│   ├── seed_demo_data.py
+│   └── reset_demo_data.py
+├── .env.example
+├── .gitignore
+├── compose.yaml
+├── Makefile
+└── README.md
+```
+
+You may refine the folder organization for implementation quality, but do not change the technology stack or business workflow.
+
+---
+
+## 12. Development Phases
+
+Build the application in the following order.
+
+### Phase A — Requirements and architecture
+
+- Finalize the requirements document.
+- Create the architecture diagram.
+- Create the database entity-relationship diagram.
+- Define API request and response schemas.
+- Define the threat model.
+- Document all assumptions and simulated components.
+
+### Phase B — Environment and database
+
+- Set up the frontend and backend projects.
+- Configure PostgreSQL.
+- Create Alembic migrations.
+- Implement SQLAlchemy models.
+- Seed synthetic branches, customers and operators.
+- Verify persistence across application restarts.
+
+### Phase C — Backend
+
+- Implement authentication and authorization.
+- Implement customer and branch APIs.
+- Implement verification session management.
+- Implement the home-branch simulator.
+- Implement transaction rules and daily-limit enforcement.
+- Implement signed authorization and replay prevention.
+- Implement atomic redemption.
+- Implement audit events.
+- Add backend unit and integration tests.
+
+### Phase D — Frontend
+
+- Implement login and dashboard.
+- Implement branch selection and customer lookup.
+- Implement the combined verification screen.
+- Implement home-branch verification status.
+- Implement withdrawal and transaction-security screens.
+- Implement transaction history and authorized audit views.
+- Connect all screens to actual backend APIs.
+- Add loading, error and empty states.
+- Add frontend tests.
+
+### Phase E — Biometric integration
+
+- Implement the face and liveness adapter interfaces.
+- Evaluate the selected face-matching and liveness components.
+- Keep additional biometric verification behind its adapter.
+- Provide a labelled mock mode for deterministic testing.
+- Test failure cases and model-unavailable behavior.
+
+### Phase F — Full workflow integration
+
+Demonstrate the exact sequence:
+
+1. Customer visits a non-home branch.
+2. Live face, liveness and additional biometric verification.
+3. Real-time identity check through the home-branch service.
+4. Transaction-security checks.
+5. Authorized simulated withdrawal within the applicable prototype policy.
+
+Ensure every transition is enforced by the backend, not merely by the frontend.
+
+### Phase G — Security and quality testing
+
+- Run all automated tests.
+- Fix failing tests before declaring the build complete.
+- Test concurrent withdrawals.
+- Test invalid and expired authorization.
+- Test replay and duplicate requests.
+- Test verification failures.
+- Test service timeouts and unavailable services.
+- Test role and branch authorization.
+- Test database constraints and persistence.
+- Run frontend and backend builds.
+- Record actual results.
+
+### Phase H — Packaging and evaluation
+
+- Provide Docker Compose configuration.
+- Write complete setup instructions.
+- Prepare a demo script.
+- Produce an architecture and database document.
+- Produce a security test report.
+- Record benchmark conditions and results.
+- Document limitations and future bank integration requirements.
+
+---
+
+## 13. Required Security Test Cases
+
+At minimum, test the following.
+
+1. Successful eligible withdrawal.
+2. Face mismatch.
+3. Liveness failure.
+4. Additional biometric verification failure.
+5. Unknown customer.
+6. Inactive or blocked account.
+7. Insufficient available balance.
+8. Zero or negative withdrawal amount.
+9. Withdrawal amount exceeding the configured daily limit.
+10. Multiple withdrawals reaching the daily limit.
+11. Concurrent withdrawals attempting to exceed the daily limit.
+12. Expired authorization token.
+13. Modified token.
+14. Token bound to a different branch.
+15. Token bound to a different amount.
+16. Replay of a redeemed token.
+17. Duplicate redemption request.
+18. Home-branch service timeout.
+19. Home-branch service returns invalid or incomplete data.
+20. Database failure during redemption.
+21. Unauthorized operator.
+22. Operator attempting to access another branch's restricted records.
+23. Rate-limit violation.
+24. Audit event generation.
+25. Application restart and persistence verification.
+26. Malformed API input.
+27. Frontend handling of backend errors.
+28. Camera or biometric provider unavailable.
+
+For each test, record:
+
+- Test ID.
+- Preconditions.
+- Input.
+- Expected result.
+- Actual result.
+- Pass or fail.
+- Evidence or log reference.
+- Corrective action if failed.
+
+Never fabricate test results. Mark unexecuted cases as pending.
+
+---
+
+## 14. Evaluation Criteria
+
+Evaluate the prototype against measurable criteria.
+
+### Functional correctness
+
+- Does the original workflow execute in the correct order?
+- Are successful and failed transactions handled correctly?
+- Is PostgreSQL persistence working?
+
+### Security
+
+- Are mandatory verification failures rejected?
+- Is authorization bound to the correct transaction?
+- Is replay prevention effective?
+- Does concurrent redemption preserve daily-limit correctness?
+- Are operator and branch permissions enforced?
+- Are audit logs useful without exposing sensitive information?
+
+### Performance
+
+Measure API response time, throughput and error rate under documented conditions.
+
+Report median and 95th-percentile latency, sample size, environment and test method.
+
+Do not treat an in-process test result as production banking performance.
+
+### Biometric evaluation
+
+When real models are configured, evaluate false acceptance, false rejection and presentation-attack performance using an appropriate, authorized test dataset.
+
+When mock adapters are used, report workflow correctness only. Do not claim biometric accuracy.
+
+### Usability
+
+Assess workflow clarity, error messages, accessibility and completion time with appropriate test participants.
+
+### Real-world relevance
+
+Compare SecureCross with existing cardless withdrawal methods and non-home-branch procedures. Document the specific gap being investigated and collect user or banking-professional feedback where possible.
+
+Do not claim superiority until evidence supports the claim.
+
+---
+
+## 15. Documentation Deliverables
+
+Generate and maintain:
+
+1. `README.md` — setup and operation.
+2. `requirements.md` — finalized functional and non-functional requirements.
+3. `architecture.md` — components and data flow.
+4. `database.md` — schema and relationships.
+5. `api.md` — endpoint documentation.
+6. `threat_model.md` — threats, mitigations and residual risks.
+7. `security_test_plan.md` — test cases.
+8. `evaluation_report.md` — actual results and limitations.
+9. `demo_script.md` — demonstration steps.
+10. `.env.example` — safe configuration template.
+11. Database migration files.
+12. Automated test suite.
+13. Docker Compose configuration.
+
+Also generate clear architecture and database diagrams where supported.
+
+---
+
+## 16. Definition of Done
+
+Do not declare SecureCross complete until:
+
+- The React frontend builds successfully.
+- The FastAPI backend starts successfully.
+- PostgreSQL connects and persists data.
+- Database migrations run successfully.
+- Synthetic seed data can be created reproducibly.
+- Frontend screens use the real backend APIs.
+- The original five-step workflow is implemented.
+- Simulated and real model-based verification are clearly distinguished.
+- The transaction authorization and redemption logic work.
+- Daily limits are enforced under concurrent requests.
+- Replay and duplicate redemption are prevented.
+- Authorization and branch permissions are tested.
+- Automated tests pass.
+- Security failures are handled safely.
+- Setup instructions have been followed successfully.
+- Test reports contain actual execution results.
+- Known limitations are documented.
+
+A working mock-based prototype may satisfy the initial development milestone. It must not be represented as having production-grade biometric verification or bank integration unless those features are genuinely implemented and independently evaluated.
+
+---
+
+## 17. Instructions to the AI Coding Agent
+
+Act as a senior full-stack engineer, application security engineer, database designer and technical reviewer.
+
+Start by inspecting the existing project files, if any. Reuse compatible existing work and preserve the original SecureCross concept.
+
+Then:
+
+1. Confirm the repository and development environment.
+2. Produce the requirements, architecture, database and API plans.
+3. Implement the project in the phases specified above.
+4. Create actual source files rather than returning only illustrative snippets.
+5. Install or document dependencies as appropriate.
+6. Run the application and automated tests when the environment permits.
+7. Fix errors before proceeding to the next milestone.
+8. Keep the frontend, backend and PostgreSQL schema consistent.
+9. Record commands, actual results and unresolved problems.
+10. Package the project with setup instructions and all required documentation.
+
+If a command cannot be run, a service is unavailable or a dependency cannot be installed, state the limitation honestly and provide the exact next action.
+
+Do not stop after generating a design or an initial code scaffold. Continue through implementation and testing as far as the available environment permits.
+
+Do not invent successful test results, performance measurements, biometric capabilities or external integrations.
+
+Preserve the agreed technology stack and original SecureCross workflow throughout development.
+
+**Final deliverable:** A runnable, documented, tested academic SecureCross prototype with a connected React frontend, FastAPI backend, PostgreSQL database, security controls, biometric integration interfaces, synthetic demo data and a clear path toward future bank-approved integration.

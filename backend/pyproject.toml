@@ -1,0 +1,23 @@
+[project]
+name = "securecross-backend"
+version = "2.0.0"
+description = "AI-Powered Real-Time Cross-Branch Identity Verification and Secure Cash Withdrawal Authorization"
+authors = [{ name = "SecureCross Engineering Team" }]
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.28.0",
+    "pydantic>=2.6.0",
+    "sqlalchemy>=2.0.28",
+    "alembic>=1.13.1",
+    "psycopg2-binary>=2.9.9",
+    "httpx>=0.27.0",
+    "pytest>=8.1.0",
+    "python-jose>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "opencv-python-headless>=4.9.0",
+]
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,6 @@
+{
+  "name": "SecureCross",
+  "description": "AI-Powered Real-Time Cross-Branch Identity Verification and Secure Cash Withdrawal Authorization",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
