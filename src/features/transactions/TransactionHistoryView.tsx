@@ -45,9 +45,9 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
     }
   };
 
-  // RBAC Filter: Operators only see transactions at their branch; Managers & Auditors see all branches
+  // RBAC Filter: Operators only see transactions at their branch when assigned; Managers & Auditors see all branches
   const accessibleTransactions = transactions.filter((tx) => {
-    if (operator?.role === 'OPERATOR') {
+    if (operator?.role === 'OPERATOR' && operator.branch_id) {
       return tx.branch_id === operator.branch_id;
     }
     return true; // MANAGER and AUDITOR see all

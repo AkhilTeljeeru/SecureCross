@@ -43,18 +43,23 @@ export const BanksDirectoryView: React.FC = () => {
   const isPlatformAdmin = operator?.role === 'MANAGER' || operator?.role === 'AUDITOR';
 
   useEffect(() => {
+    if (!isPlatformAdmin && activeTab === 'reviews') {
+      setActiveTab('directory');
+    }
     loadData();
-  }, []);
+  }, [operator?.role]);
 
   const loadData = async () => {
     try {
       setLoading(true);
-      const [banksRes, appsRes] = await Promise.all([
-        api.getBanks(),
-        api.getAdminBankApplications(),
-      ]);
+      const banksRes = await api.getBanks();
       setBanks(banksRes.banks);
-      setApplications(appsRes.applications);
+      if (isPlatformAdmin) {
+        const appsRes = await api.getAdminBankApplications();
+        setApplications(appsRes.applications);
+      } else {
+        setApplications([]);
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -329,7 +334,7 @@ export const BanksDirectoryView: React.FC = () => {
                       onClick={() => setSelectedBankForBranches(b)}
                       className="min-h-[38px] text-xs text-[#2563EB] hover:text-blue-700 flex items-center justify-start sm:justify-end gap-1 font-semibold cursor-pointer"
                     >
-                      <span>{b.branches?.length || b.participating_branches_count || 1} Branches</span>
+                      <span>{b.branches?.length ?? b.participating_branches_count ?? 0} Branches</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -393,7 +398,11 @@ export const BanksDirectoryView: React.FC = () => {
                     </td>
                     <td className="py-3 px-4 text-right">
                       <button
-                        onClick={() => setSelectedApplication(appItem)}
+                        onClick={() => {
+                          setActionNotes('');
+                          setActionError(null);
+                          setSelectedApplication(appItem);
+                        }}
                         className="px-3 py-1.5 rounded-lg bg-[#EFF6FF] hover:bg-blue-100 text-[#2563EB] border border-blue-200 font-semibold text-xs transition-colors cursor-pointer"
                       >
                         Review

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '../../api/client';
 import { BankApplication, BankType } from '../../api/types';
 import {
@@ -98,6 +98,72 @@ export const BankRegistrationModal: React.FC<BankRegistrationModalProps> = ({
 
   const [declarationAccepted, setDeclarationAccepted] = useState(false);
 
+  const resetForm = () => {
+    setStep(1);
+    setSubmitting(false);
+    setError(null);
+    setSuccess(false);
+    setLegalName('');
+    setBankType('COMMERCIAL');
+    setCountry('India');
+    setRegisteredAddress('');
+    setOfficialWebsite('');
+    setLicenceNumber('');
+    setOfficialEmail('');
+    setContactNumber('');
+    setRepName('');
+    setRepDesignation('');
+    setRepEmail('');
+    setRepPhone('');
+    setRepAuthSummary('');
+    setBranches([
+      {
+        branch_code: '',
+        name: '',
+        address: '',
+        location: '',
+        contact_phone: '',
+        contact_email: '',
+        is_home_branch_enabled: true,
+      },
+    ]);
+    setSecurityEmail('');
+    setTechnicalEmail('');
+    setSandboxReady(true);
+    setIntegrationNotes('');
+    setGeneralRequirements('');
+    setDeclarationAccepted(false);
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      resetForm();
+    }
+  }, [isOpen]);
+
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateStep = (targetStep: number): boolean => {
+    setError(null);
+    if (targetStep === 1) {
+      if (!legalName.trim() || !licenceNumber.trim() || !officialEmail.trim()) {
+        setError('Bank Legal Name, Regulatory Licence Number, and Official Nodal Email are required.');
+        return false;
+      }
+      if (!EMAIL_REGEX.test(officialEmail.trim())) {
+        setError('Please enter a valid Official Nodal Email address.');
+        return false;
+      }
+    }
+    if (targetStep === 2) {
+      if (repEmail.trim() && !EMAIL_REGEX.test(repEmail.trim())) {
+        setError('Please enter a valid Representative Work Email address.');
+        return false;
+      }
+    }
+    return true;
+  };
+
   if (!isOpen) return null;
 
   const handleAddBranch = () => {
@@ -131,8 +197,12 @@ export const BankRegistrationModal: React.FC<BankRegistrationModalProps> = ({
       setError('You must accept the compliance and security declaration to proceed.');
       return;
     }
-    if (!legalName || !licenceNumber || !officialEmail) {
+    if (!legalName.trim() || !licenceNumber.trim() || !officialEmail.trim()) {
       setError('Please fill in all required bank legal details.');
+      return;
+    }
+    if (!EMAIL_REGEX.test(officialEmail.trim())) {
+      setError('Please enter a valid Official Nodal Email address.');
       return;
     }
 
@@ -666,7 +736,11 @@ export const BankRegistrationModal: React.FC<BankRegistrationModalProps> = ({
               {step < 4 ? (
                 <button
                   type="button"
-                  onClick={() => setStep(step + 1)}
+                  onClick={() => {
+                    if (validateStep(step)) {
+                      setStep(step + 1);
+                    }
+                  }}
                   className="min-h-[44px] flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#2563EB] hover:bg-blue-700 text-white text-xs font-semibold transition-colors shadow-xs cursor-pointer"
                 >
                   <span>Continue</span>

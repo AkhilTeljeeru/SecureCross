@@ -54,6 +54,7 @@ function AppContent() {
 
         {currentView === 'new_withdrawal' && (
           <NewWithdrawalView
+            key={refreshKey}
             onFinish={() => setCurrentView('dashboard')}
             onViewAudit={() => setCurrentView('audit')}
           />
@@ -73,7 +74,7 @@ function AppContent() {
           />
         )}
 
-        {currentView === 'banks' && <BanksDirectoryView />}
+        {currentView === 'banks' && <BanksDirectoryView key={refreshKey} />}
 
         {currentView === 'tests' && <SecurityTestLabView />}
 

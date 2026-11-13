@@ -68,6 +68,7 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
   // Verification execution states
   const [verificationStarted, setVerificationStarted] = useState<boolean>(false);
   const [verificationAttempted, setVerificationAttempted] = useState<boolean>(false);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
 
   // Security Test Simulation Toggles
   const [simulateMismatch, setSimulateMismatch] = useState<boolean>(false);
@@ -82,6 +83,12 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const selectedDeviceIdRef = useRef<string>('');
+  const isMountedRef = useRef<boolean>(true);
+
+  useEffect(() => {
+    selectedDeviceIdRef.current = selectedDeviceId;
+  }, [selectedDeviceId]);
 
   // Enumerate cameras when mediaDevices is available
   const refreshDevices = useCallback(async () => {
@@ -89,17 +96,18 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoInputs = devices.filter((d) => d.kind === 'videoinput');
+        if (!isMountedRef.current) return;
         setAvailableDevices(videoInputs);
-        if (videoInputs.length > 0 && !selectedDeviceId) {
+        if (videoInputs.length > 0 && !selectedDeviceIdRef.current) {
           setSelectedDeviceId(videoInputs[0].deviceId);
         }
       } catch (err) {
         console.warn('Unable to enumerate video devices', err);
       }
     }
-  }, [selectedDeviceId]);
+  }, []);
 
-  // Stop camera tracks cleanly
+  // Stop camera tracks cleanly (stable callback without permission state dependency)
   const stopCamera = useCallback(() => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => {
@@ -122,16 +130,35 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
     setCameraActive(false);
     setCameraReady(false);
     setVideoDimensions(null);
-    if (cameraPermission === 'GRANTED') {
-      setCameraPermission('NOT_REQUESTED');
-    }
-  }, [cameraPermission]);
+    setCameraPermission((prev) => (prev === 'GRANTED' ? 'NOT_REQUESTED' : prev));
+  }, []);
 
-  // Initialize verification session with authoritative backend
+  const initSession = useCallback(async () => {
+    try {
+      setLoading(true);
+      setInitError(null);
+      setVerificationError(null);
+      const sess = await api.createVerificationSession(branch.id, amount, claimReference);
+      if (isMountedRef.current) {
+        setSession(sess);
+      }
+    } catch (e: any) {
+      console.error('Failed to create verification session', e);
+      if (isMountedRef.current) {
+        setInitError(e.message || 'Failed to initialize verification session with backend engine');
+      }
+    } finally {
+      if (isMountedRef.current) {
+        setLoading(false);
+      }
+    }
+  }, [branch.id, amount, claimReference]);
+
+  // Initialize verification session once on mount and release hardware tracks strictly on unmount
   useEffect(() => {
+    isMountedRef.current = true;
     initSession();
 
-    // Check secure context
     if (typeof window !== 'undefined') {
       const isSecure =
         window.isSecureContext ||
@@ -145,28 +172,13 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
       }
     }
 
-    // Refresh devices on mount
     refreshDevices();
 
-    // Security cleanup on unmount
     return () => {
+      isMountedRef.current = false;
       stopCamera();
     };
-  }, [refreshDevices, stopCamera]);
-
-  const initSession = async () => {
-    try {
-      setLoading(true);
-      setInitError(null);
-      const sess = await api.createVerificationSession(branch.id, amount, claimReference);
-      setSession(sess);
-    } catch (e: any) {
-      console.error('Failed to create verification session', e);
-      setInitError(e.message || 'Failed to initialize verification session with backend engine');
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [initSession, refreshDevices, stopCamera]);
 
   // Explicit user-triggered camera start
   const handleStartCamera = async (overrideDeviceId?: string, overrideFacingMode?: 'user' | 'environment') => {
@@ -219,6 +231,11 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
         console.warn('Constrained camera request failed, attempting fallback to generic video: true', firstErr);
         // Fallback: request generic video stream without strict facing/deviceId
         stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      }
+
+      if (!isMountedRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
       }
 
       streamRef.current = stream;
@@ -316,6 +333,7 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
     setCapturing(true);
     setVerificationStarted(true);
     setVerificationAttempted(true);
+    setVerificationError(null);
 
     try {
       let frameBase64: string | undefined;
@@ -333,7 +351,6 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(video, 0, 0, frameWidth, frameHeight);
-          // Export JPEG frame with 0.85 quality
           frameBase64 = canvas.toDataURL('image/jpeg', 0.85);
         }
       }
@@ -353,6 +370,16 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
         client_face_present: !simulateNoFace,
       });
 
+      // Short-circuit secondary biometric if facial verification or PAD liveness already rejected
+      if (
+        afterFaceSess.overall_result === 'REJECTED' ||
+        afterFaceSess.face_result.status !== 'MATCH' ||
+        afterFaceSess.face_result.liveness_status !== 'LIVE'
+      ) {
+        setSession(afterFaceSess);
+        return;
+      }
+
       // 2. Submit secondary biometric modality adapter (POST /api/v1/verification/sessions/:id/biometric)
       const updatedOverall = await api.submitBiometricVerification(session.id, {
         modality: 'FINGERPRINT',
@@ -368,6 +395,7 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
       }
     } catch (err: any) {
       console.error('Face verification request failed', err);
+      setVerificationError(err?.message || 'Face verification request failed. Please retry.');
     } finally {
       setCapturing(false);
     }
@@ -533,7 +561,7 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
                   <select
                     value={selectedDeviceId}
                     onChange={(e) => handleSelectDevice(e.target.value)}
-                    className="text-[11px] font-mono bg-white border border-[#E2E8F0] rounded-md px-2 py-1 text-[#172554] focus:outline-none focus:border-[#2563EB]"
+                    className="max-w-[140px] sm:max-w-[200px] truncate text-[11px] font-mono bg-white border border-[#E2E8F0] rounded-md px-2 py-1 text-[#172554] focus:outline-none focus:border-[#2563EB]"
                     title="Select Camera Input"
                   >
                     {availableDevices.map((dev, idx) => (
@@ -606,7 +634,7 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
                 autoPlay
                 playsInline
                 muted
-                className={`w-full h-full object-cover scale-x-[-1] transition-opacity duration-300 ${
+                className={`w-full h-full object-cover ${facingMode === 'user' ? 'scale-x-[-1]' : ''} transition-opacity duration-300 ${
                   cameraActive && !useSyntheticFeed ? 'opacity-100 block' : 'opacity-0 absolute inset-0 pointer-events-none'
                 }`}
               />
@@ -698,6 +726,14 @@ export const Step2CombinedVerification: React.FC<Step2Props> = ({
 
             {/* Hidden canvas element for frame extraction */}
             <canvas ref={canvasRef} className="hidden" />
+
+            {/* Error banner for verification API errors */}
+            {verificationError && (
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-[#DC2626] text-xs flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#DC2626]" />
+                <p className="font-semibold">{verificationError}</p>
+              </div>
+            )}
 
             {/* Error banner for permission denial or hardware errors */}
             {cameraError && (

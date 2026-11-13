@@ -14,6 +14,11 @@ from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
+
+def utc_now() -> datetime.datetime:
+    return datetime.datetime.now(datetime.timezone.utc)
+
+
 class Branch(Base):
     __tablename__ = "branches"
 
@@ -21,8 +26,9 @@ class Branch(Base):
     branch_code = Column(String(32), unique=True, nullable=False, index=True)
     name = Column(String(255), nullable=False)
     location = Column(String(255), nullable=False)
+    bank_id = Column(String(64), ForeignKey("banks.id"), nullable=True)
     status = Column(String(32), nullable=False, default="ACTIVE")
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
 
     customers = relationship("Customer", back_populates="home_branch")
     operators = relationship("Operator", back_populates="branch")
@@ -37,11 +43,12 @@ class Customer(Base):
     full_name = Column(String(255), nullable=False)
     synthetic_pan = Column(String(16), nullable=False)
     home_branch_id = Column(String(64), ForeignKey("branches.id"), nullable=False)
+    home_bank_id = Column(String(64), nullable=True)
     account_status = Column(String(32), nullable=False, default="ACTIVE")
     available_balance = Column(Numeric(14, 2), nullable=False)
     daily_withdrawal_limit = Column(Numeric(14, 2), nullable=False, default=50000.00)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+    updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now)
 
     home_branch = relationship("Branch", back_populates="customers")
     verification_sessions = relationship("VerificationSession", back_populates="customer")
@@ -58,10 +65,12 @@ class Operator(Base):
     id = Column(String(64), primary_key=True)
     username = Column(String(64), unique=True, nullable=False, index=True)
     password_hash = Column(String(255), nullable=False)
+    full_name = Column(String(255), nullable=False, default="")
     role = Column(String(32), nullable=False)
-    branch_id = Column(String(64), ForeignKey("branches.id"), nullable=False)
+    branch_id = Column(String(64), ForeignKey("branches.id"), nullable=True)
+    bank_id = Column(String(64), nullable=True)
     status = Column(String(32), nullable=False, default="ACTIVE")
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
 
     branch = relationship("Branch", back_populates="operators")
     transactions = relationship("Transaction", back_populates="operator")
@@ -75,14 +84,16 @@ class VerificationSession(Base):
     __tablename__ = "verification_sessions"
 
     id = Column(String(64), primary_key=True)
-    customer_id = Column(String(64), ForeignKey("customers.id"), nullable=False)
+    customer_id = Column(String(64), ForeignKey("customers.id"), nullable=True)
     branch_id = Column(String(64), ForeignKey("branches.id"), nullable=False)
+    amount = Column(Numeric(14, 2), nullable=False, default=15000.00)
+    customer_claim_reference = Column(String(64), nullable=True)
     session_status = Column(String(32), nullable=False)
     face_result = Column(JSON, nullable=False)
     additional_biometric_result = Column(JSON, nullable=False)
     overall_result = Column(String(32), nullable=False)
     failure_reason_code = Column(String(64), nullable=True)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
     expires_at = Column(DateTime(timezone=True), nullable=False)
 
     customer = relationship("Customer", back_populates="verification_sessions")
@@ -99,7 +110,9 @@ class Transaction(Base):
     verification_session_id = Column(String(64), ForeignKey("verification_sessions.id"), nullable=False)
     amount = Column(Numeric(14, 2), nullable=False)
     status = Column(String(32), nullable=False)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    rejection_reason = Column(String(255), nullable=True)
+    token_jti = Column(String(128), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
     authorized_at = Column(DateTime(timezone=True), nullable=True)
     redeemed_at = Column(DateTime(timezone=True), nullable=True)
 
@@ -119,7 +132,7 @@ class AuthorizationToken(Base):
     id = Column(String(64), primary_key=True)
     transaction_id = Column(String(64), ForeignKey("transactions.id"), unique=True, nullable=False)
     token_jti = Column(String(128), unique=True, nullable=False, index=True)
-    issued_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    issued_at = Column(DateTime(timezone=True), default=utc_now)
     expires_at = Column(DateTime(timezone=True), nullable=False)
     redeemed_at = Column(DateTime(timezone=True), nullable=True)
     status = Column(String(32), nullable=False, default="ISSUED")
@@ -147,12 +160,14 @@ class AuditEvent(Base):
     event_type = Column(String(64), nullable=False, index=True)
     actor_id = Column(String(64), nullable=False)
     actor_role = Column(String(32), nullable=False)
+    bank_id = Column(String(64), nullable=True)
     transaction_id = Column(String(64), nullable=True, index=True)
-    event_timestamp = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    event_timestamp = Column(DateTime(timezone=True), default=utc_now)
     outcome = Column(String(32), nullable=False)
     reason_code = Column(String(64), nullable=True)
     correlation_id = Column(String(64), nullable=False, index=True)
-    metadata = Column(JSON, nullable=False)
+    # Renamed Python attribute to avoid SQLAlchemy Declarative Base.metadata reserved conflict
+    event_metadata = Column("metadata", JSON, nullable=False)
 
 
 class Bank(Base):
@@ -172,8 +187,8 @@ class Bank(Base):
     integration_status = Column(String(32), nullable=False, default="NOT_STARTED")
     live_transaction_authorized = Column(Integer, nullable=False, default=0)
     participating_branches_count = Column(Integer, nullable=False, default=0)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+    updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now)
 
 
 class BankApplication(Base):
@@ -196,8 +211,8 @@ class BankApplication(Base):
     application_status = Column(String(32), nullable=False, default="SUBMITTED")
     declaration_accepted = Column(Integer, nullable=False, default=1)
     bank_id = Column(String(64), ForeignKey("banks.id"), nullable=True)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+    updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now)
     submitted_at = Column(DateTime(timezone=True), nullable=True)
 
 
@@ -215,7 +230,7 @@ class BankBranch(Base):
     contact_email = Column(String(255), nullable=False)
     is_home_branch_enabled = Column(Integer, nullable=False, default=1)
     status = Column(String(32), nullable=False, default="ACTIVE")
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
 
 
 class BankRepresentative(Base):
@@ -228,7 +243,7 @@ class BankRepresentative(Base):
     work_email = Column(String(255), nullable=False)
     work_phone = Column(String(32), nullable=False)
     authorization_evidence_summary = Column(String(1024), nullable=False)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
 
 
 class BankDocument(Base):
@@ -242,7 +257,7 @@ class BankDocument(Base):
     mime_type = Column(String(64), nullable=False)
     storage_reference = Column(String(512), nullable=False)
     verification_status = Column(String(32), nullable=False, default="PENDING")
-    uploaded_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
+    uploaded_at = Column(DateTime(timezone=True), default=utc_now)
 
 
 class BankApplicationReview(Base):
@@ -256,5 +271,4 @@ class BankApplicationReview(Base):
     reviewer_role = Column(String(32), nullable=False)
     review_notes = Column(String(1024), nullable=True)
     reason_code = Column(String(64), nullable=True)
-    created_at = Column(DateTime(timezone=True), default=datetime.datetime.utcnow)
-
+    created_at = Column(DateTime(timezone=True), default=utc_now)

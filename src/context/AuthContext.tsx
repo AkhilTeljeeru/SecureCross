@@ -19,16 +19,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Check if operator is already set or default to Delhi Teller
     const init = async () => {
       try {
-        const res = await api.getCurrentOperator();
+        const storedOpId = localStorage.getItem('sc_operator_id');
+        if (storedOpId) {
+          const res = await api.getCurrentOperator();
+          setOperator(res.operator);
+          setBranch(res.branch);
+          localStorage.setItem('sc_operator_id', res.operator.id);
+          return;
+        }
+        const res = await api.login('delhi_teller_1', 'OPERATOR');
         setOperator(res.operator);
         setBranch(res.branch);
         localStorage.setItem('sc_operator_id', res.operator.id);
       } catch (err) {
-        // Fallback default dev login
         try {
+          localStorage.removeItem('sc_operator_id');
           const res = await api.login('delhi_teller_1', 'OPERATOR');
           setOperator(res.operator);
           setBranch(res.branch);

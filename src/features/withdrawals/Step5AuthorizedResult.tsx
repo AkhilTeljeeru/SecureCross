@@ -43,7 +43,10 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
   const [redeemed, setRedeemed] = useState<boolean>(false);
   const [cashDispensed, setCashDispensed] = useState<boolean>(false);
   const [remainingBalance, setRemainingBalance] = useState<number>(customer.available_balance);
-  const [remainingAllowance, setRemainingAllowance] = useState<number>(50000 - transaction.amount);
+  const [remainingAllowance, setRemainingAllowance] = useState<number>(
+    Math.max(0, (customer.daily_withdrawal_limit || 50000) - transaction.amount)
+  );
+  const [redeemError, setRedeemError] = useState<string | null>(null);
   const [attackOutcome, setAttackOutcome] = useState<{
     type: string;
     success: boolean;
@@ -53,6 +56,7 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
   const handleRedeemAndDispense = async () => {
     setRedeeming(true);
     setAttackOutcome(null);
+    setRedeemError(null);
     try {
       const res = await api.redeemWithdrawal(currentTx.id, { auth_token: authToken });
       setCurrentTx(res.transaction);
@@ -62,6 +66,7 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
       setCashDispensed(true);
     } catch (err: any) {
       console.error(err);
+      setRedeemError(err?.message || 'Failed to redeem withdrawal authorization token');
     } finally {
       setRedeeming(false);
     }
@@ -169,6 +174,13 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
           </div>
         )}
       </div>
+
+      {redeemError && (
+        <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-[#DC2626] text-xs font-medium flex items-center gap-2">
+          <XCircle className="w-4 h-4 shrink-0 text-[#DC2626]" />
+          <span>{redeemError}</span>
+        </div>
+      )}
 
       {/* Animated Cash Dispenser Tray (Simulated) */}
       {cashDispensed && (

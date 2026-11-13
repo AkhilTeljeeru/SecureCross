@@ -29,6 +29,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate, onRefre
   const [resetting, setResetting] = useState(false);
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<'reset' | 'fixtures' | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   // Close mobile menu on resize to desktop
   useEffect(() => {
@@ -53,35 +55,35 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate, onRefre
     };
   }, [mobileMenuOpen]);
 
-  const handleResetData = async () => {
-    if (confirm('Reset all synthetic demo data, verification sessions and transactions to initial state?')) {
-      setResetting(true);
-      try {
+  const executeConfirmedAction = async () => {
+    if (!confirmAction) return;
+    setResetting(true);
+    setActionError(null);
+    try {
+      if (confirmAction === 'reset') {
         await api.resetDemoData();
-        if (onRefreshData) onRefreshData();
-        setMobileMenuOpen(false);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setResetting(false);
+      } else {
+        await api.seedTestFixtures();
       }
+      if (onRefreshData) onRefreshData();
+      setMobileMenuOpen(false);
+      setConfirmAction(null);
+    } catch (e: any) {
+      console.error(e);
+      setActionError(e?.message || 'Action failed');
+    } finally {
+      setResetting(false);
     }
   };
 
-  const handleLoadFixtures = async () => {
-    if (confirm('Load synthetic test fixtures (demonstration banks, branches and test identities) into directory?')) {
-      setResetting(true);
-      try {
-        await api.seedTestFixtures();
-        if (onRefreshData) onRefreshData();
-        setMobileMenuOpen(false);
-        window.location.reload();
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setResetting(false);
-      }
-    }
+  const handleResetData = () => {
+    setActionError(null);
+    setConfirmAction('reset');
+  };
+
+  const handleLoadFixtures = () => {
+    setActionError(null);
+    setConfirmAction('fixtures');
   };
 
   const handleNavItemClick = (viewId: string) => {
@@ -407,6 +409,63 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate, onRefre
               >
                 <RefreshCw className={`w-4 h-4 ${resetting ? 'animate-spin text-[#2563EB]' : 'text-[#64748B]'}`} />
                 <span>Reset to Clean Initial Database State</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* In-app Confirmation Modal (replaces browser confirm() blocked in iframe contexts) */}
+      {confirmAction && (
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-md w-full p-5 space-y-4 shadow-xl text-xs">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
+              <span className="font-bold text-sm text-[#172554]">
+                {confirmAction === 'reset'
+                  ? 'Reset Application Data'
+                  : 'Load Synthetic Test Fixtures'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setConfirmAction(null)}
+                className="text-[#64748B] hover:text-[#172554] p-1 rounded-lg hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-[#64748B] leading-relaxed">
+              {confirmAction === 'reset'
+                ? 'Reset all banks, branches, verification sessions, and transactions back to the clean empty initial state?'
+                : 'Populate synthetic test fixtures (demonstration banks, branches, and test identities) for evaluation?'}
+            </p>
+
+            {actionError && (
+              <div className="p-2.5 rounded-lg bg-red-50 border border-red-200 text-[#DC2626] font-medium">
+                {actionError}
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#E2E8F0]">
+              <button
+                type="button"
+                onClick={() => setConfirmAction(null)}
+                disabled={resetting}
+                className="min-h-[40px] px-4 py-2 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 text-[#172554] font-medium cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={executeConfirmedAction}
+                disabled={resetting}
+                className="min-h-[40px] px-4 py-2 rounded-lg bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 text-white font-semibold cursor-pointer"
+              >
+                {resetting
+                  ? 'Applying...'
+                  : confirmAction === 'reset'
+                  ? 'Confirm Reset'
+                  : 'Load Fixtures'}
               </button>
             </div>
           </div>

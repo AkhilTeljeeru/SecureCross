@@ -82,12 +82,13 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
   };
 
   // Pre-authorization evaluations
+  const effectivePolicyLimit = limitData?.daily_limit || limitData?.max_policy_limit || 50000;
   const isAccountActive = customer.account_status === 'ACTIVE';
   const isVerified = session.overall_result === 'VERIFIED';
   const hasSufficientBalance = customer.available_balance >= amount;
   const usedToday = limitData?.used_today || 0;
-  const remainingAllowance = limitData ? limitData.remaining_allowance : 50000;
-  const withinDailyLimit = usedToday + amount <= 50000;
+  const remainingAllowance = limitData ? limitData.remaining_allowance : effectivePolicyLimit;
+  const withinDailyLimit = usedToday + amount <= effectivePolicyLimit;
 
   const checks = [
     {
@@ -113,7 +114,7 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
     },
     {
       id: 'daily_allowance',
-      title: '4. Prototype Daily Withdrawal Allowance (₹50,000 Cap)',
+      title: `4. Prototype Daily Withdrawal Allowance (₹${effectivePolicyLimit.toLocaleString('en-IN')} Cap)`,
       passed: withinDailyLimit,
       detail: `Used today: ₹${usedToday.toLocaleString('en-IN')} · Requested: ₹${amount.toLocaleString('en-IN')} · Remaining: ₹${remainingAllowance.toLocaleString('en-IN')}`,
       code: 'RULE_DAILY_LIMIT',
@@ -181,7 +182,7 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
         <div>
           <span className="text-[10px] font-semibold text-[#64748B] uppercase block">TODAY'S USAGE (ACCUMULATED)</span>
           <span className="font-bold font-mono text-[#172554] block mt-0.5 tabular-nums">
-            ₹{usedToday.toLocaleString('en-IN', { minimumFractionDigits: 2 })} / ₹50,000
+            ₹{usedToday.toLocaleString('en-IN', { minimumFractionDigits: 2 })} / ₹{effectivePolicyLimit.toLocaleString('en-IN')}
           </span>
         </div>
 

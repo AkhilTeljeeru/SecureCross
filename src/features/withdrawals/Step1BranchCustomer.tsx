@@ -74,7 +74,7 @@ export const Step1BranchCustomer: React.FC<Step1Props> = ({
       setError('Please explicitly select the Current Visiting Branch where the customer is standing.');
       return;
     }
-    if (amount <= 0) {
+    if (!Number.isFinite(amount) || amount <= 0) {
       setError('Withdrawal amount must be greater than zero.');
       return;
     }
@@ -500,7 +500,6 @@ export const Step1BranchCustomer: React.FC<Step1Props> = ({
         isOpen={isRegisterBankOpen}
         onClose={() => setIsRegisterBankOpen(false)}
         onApplicationCreated={() => {
-          setIsRegisterBankOpen(false);
           loadBranches();
         }}
       />

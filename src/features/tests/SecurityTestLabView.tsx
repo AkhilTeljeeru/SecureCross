@@ -85,10 +85,10 @@ export const SecurityTestLabView: React.FC = () => {
           id: def.id,
           name: def.name,
           description: `Security control test case ${def.id}`,
-          status: 'PASSED',
+          status: 'FAILED',
           expected: def.expected,
-          actual: 'Verified against server-side authorization engine',
-          details: 'Rule enforced in /api/v1 handlers and security middleware',
+          actual: 'Not executed or missing from backend security harness response',
+          details: 'Backend test runner did not return an authoritative execution result for this test ID',
         };
       });
 

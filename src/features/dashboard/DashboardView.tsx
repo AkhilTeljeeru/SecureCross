@@ -270,7 +270,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                           </span>
                         </div>
                         <span className="text-[11px] font-mono text-[#64748B] block mt-0.5 truncate">
-                          {b.registration_licence_number} · {b.participating_branches_count || 1} Branches
+                          {b.registration_licence_number} · {b.participating_branches_count ?? 0} Branches
                         </span>
                       </div>
 
@@ -404,14 +404,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                             {tx.transaction_reference}
                           </span>
                           <span className="text-[10px] font-mono text-[#64748B] hidden sm:inline">
-                            {tx.session_id ? `(${tx.session_id.slice(-6)})` : ''}
+                            {tx.verification_session_id ? `(${tx.verification_session_id.slice(-6)})` : ''}
                           </span>
                         </div>
                         <div className="flex items-center gap-1.5 text-[#64748B] text-[11px] mt-0.5 truncate">
                           <span className="font-mono">{new Date(tx.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                           <span>·</span>
                           <span className="truncate font-mono">
-                            {tx.failure_reason_code ? `${tx.failure_reason_code}` : 'Biometrics Verified'}
+                            {tx.rejection_reason ? `${tx.rejection_reason}` : 'Biometrics Verified'}
                           </span>
                         </div>
                       </div>
