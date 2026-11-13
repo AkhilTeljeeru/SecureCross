@@ -134,17 +134,17 @@ export const BanksDirectoryView: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-4 sm:space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
-            <span>FEDERATED BANKING DIRECTORY</span>
+          <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-[#2563EB] uppercase">
+            <span>Federated Banking Directory</span>
             <span>·</span>
-            <span>MULTI-BANK PARTICIPATING NETWORK</span>
+            <span>Multi-Bank Participating Network</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-1">
-            Registered Banking Institutions & Directory
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#172554] mt-1">
+            Registered Banking Institutions &amp; Directory
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#64748B] mt-1">
             Authorized banking institutions permitted to participate in the SecureCross cross-branch identity and cash authorization framework.
           </p>
         </div>
@@ -152,42 +152,42 @@ export const BanksDirectoryView: React.FC = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsRegisterModalOpen(true)}
-            className="w-full sm:w-auto min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs font-mono transition-colors shadow-sm whitespace-nowrap cursor-pointer"
+            className="w-full sm:w-auto min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563EB] hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm transition-colors shadow-xs whitespace-nowrap cursor-pointer"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4" />
             <span>Register a Bank</span>
           </button>
         </div>
       </div>
 
       {/* Primary Tabs (Directory vs Administrator Review Portal) */}
-      <div className="flex items-center justify-between border-b border-slate-800 overflow-x-auto no-scrollbar">
-        <div className="flex gap-2 font-mono text-xs whitespace-nowrap min-w-max">
+      <div className="flex items-center justify-between border-b border-[#E2E8F0] overflow-x-auto no-scrollbar">
+        <div className="flex gap-2 text-xs sm:text-sm whitespace-nowrap min-w-max">
           <button
             onClick={() => setActiveTab('directory')}
-            className={`min-h-[40px] py-2 px-3 border-b-2 font-semibold transition-colors flex items-center gap-2 cursor-pointer ${
+            className={`min-h-[42px] py-2 px-3 border-b-2 font-semibold transition-colors flex items-center gap-2 cursor-pointer ${
               activeTab === 'directory'
-                ? 'border-indigo-500 text-white'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#2563EB] text-[#172554]'
+                : 'border-transparent text-[#64748B] hover:text-[#172554]'
             }`}
           >
-            <Building2 className="w-4 h-4 text-indigo-400" />
+            <Building2 className={`w-4 h-4 ${activeTab === 'directory' ? 'text-[#2563EB]' : 'text-[#64748B]'}`} />
             <span>Approved Banks Directory ({banks.length})</span>
           </button>
 
           {isPlatformAdmin && (
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`min-h-[40px] py-2 px-3 border-b-2 font-semibold transition-colors flex items-center gap-2 cursor-pointer ${
+              className={`min-h-[42px] py-2 px-3 border-b-2 font-semibold transition-colors flex items-center gap-2 cursor-pointer ${
                 activeTab === 'reviews'
-                  ? 'border-indigo-500 text-white'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-[#2563EB] text-[#172554]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172554]'
               }`}
             >
-              <Shield className="w-4 h-4 text-amber-400" />
+              <Shield className="w-4 h-4 text-[#D97706]" />
               <span>Admin Onboarding Review Portal</span>
               {pendingAppsCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 text-[10px] border border-amber-500/40">
+                <span className="px-2 py-0.5 rounded-full bg-amber-50 text-[#D97706] text-[11px] font-semibold border border-amber-200">
                   {pendingAppsCount} pending
                 </span>
               )}
@@ -195,34 +195,34 @@ export const BanksDirectoryView: React.FC = () => {
           )}
         </div>
 
-        <div className="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-slate-400 shrink-0 pl-4">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="hidden md:flex items-center gap-1.5 text-xs font-medium text-[#64748B] shrink-0 pl-4">
+          <ShieldCheck className="w-4 h-4 text-[#16A34A]" />
           <span>mTLS Core Banking Federation</span>
         </div>
       </div>
 
       {/* TAB 1: APPROVED BANKS DIRECTORY */}
       {activeTab === 'directory' && (
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Search & Filter Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="relative w-full sm:w-72">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <div className="relative w-full sm:w-80">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
               <input
                 type="text"
                 placeholder="Search bank name, licence number..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-900 border border-slate-800 rounded-md text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-white border border-[#E2E8F0] rounded-lg text-[#172554] placeholder-[#64748B] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/15 shadow-2xs"
               />
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono text-slate-500">TYPE:</span>
+              <span className="text-xs font-semibold text-[#64748B] uppercase tracking-wider">Type:</span>
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="py-1.5 px-2.5 text-xs bg-slate-900 border border-slate-800 rounded-md text-white font-mono focus:border-indigo-500"
+                className="py-2 px-3 text-xs sm:text-sm bg-white border border-[#E2E8F0] rounded-lg text-[#172554] font-medium focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/15 shadow-2xs"
               >
                 <option value="ALL">All Categories</option>
                 <option value="PUBLIC_SECTOR">Public Sector</option>
@@ -236,17 +236,17 @@ export const BanksDirectoryView: React.FC = () => {
 
           {/* Banks Grid */}
           {loading ? (
-            <div className="p-12 text-center text-xs text-slate-500 font-mono">
+            <div className="p-12 text-center text-xs sm:text-sm text-[#64748B] bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
               Loading federated directory...
             </div>
           ) : filteredBanks.length === 0 ? (
-            <div className="p-12 text-center space-y-3 rounded-xl bg-slate-900 border border-slate-800">
-              <Building2 className="w-10 h-10 text-slate-600 mx-auto" />
+            <div className="p-12 text-center space-y-3 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
+              <Building2 className="w-10 h-10 text-slate-400 mx-auto" />
               <div>
-                <p className="text-base text-slate-200 font-semibold">
+                <p className="text-base text-[#172554] font-semibold">
                   {banks.length === 0 ? 'No banks registered yet.' : 'No banks found matching filter'}
                 </p>
-                <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+                <p className="text-xs sm:text-sm text-[#64748B] mt-1 max-w-md mx-auto">
                   {banks.length === 0
                     ? 'Submit a bank application to register a participating institution, declare regulatory licence, and register authorized branches.'
                     : 'Try adjusting your search keywords or selecting a different category filter.'}
@@ -255,9 +255,9 @@ export const BanksDirectoryView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsRegisterModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#2563EB] hover:bg-blue-700 text-white font-semibold text-xs transition-colors shadow-xs cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 <span>Register a Bank</span>
               </button>
             </div>
@@ -266,41 +266,41 @@ export const BanksDirectoryView: React.FC = () => {
               {filteredBanks.map((b) => (
                 <div
                   key={b.id}
-                  className="p-5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-slate-700 transition-colors"
+                  className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs flex flex-col justify-between space-y-4 hover:border-blue-300 transition-colors"
                 >
                   <div>
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-white text-sm">{b.legal_name}</h3>
-                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 border border-slate-700 uppercase">
+                        <div className="flex items-center flex-wrap gap-2">
+                          <h3 className="font-bold text-[#172554] text-sm sm:text-base">{b.legal_name}</h3>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#EFF6FF] text-[#2563EB] border border-blue-200 uppercase tracking-wide">
                             {b.bank_type.replace('_', ' ')}
                           </span>
                         </div>
-                        <span className="text-[11px] font-mono text-slate-400 block mt-1">
-                          Licence: <strong className="text-slate-300">{b.registration_licence_number}</strong> · {b.country}
+                        <span className="text-xs font-mono text-[#64748B] block mt-1">
+                          Licence: <strong className="text-[#172554]">{b.registration_licence_number}</strong> · {b.country}
                         </span>
                       </div>
 
                       <span
-                        className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold shrink-0 ${
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase tracking-wide shrink-0 ${
                           b.directory_status === 'APPROVED'
-                            ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
+                            ? 'bg-green-50 border-green-200 text-[#16A34A]'
                             : b.directory_status === 'UNDER_REVIEW'
-                            ? 'bg-amber-950/60 border-amber-800 text-amber-400'
-                            : 'bg-rose-950/60 border-rose-800 text-rose-400'
+                            ? 'bg-amber-50 border-amber-200 text-[#D97706]'
+                            : 'bg-red-50 border-red-200 text-[#DC2626]'
                         }`}
                       >
                         {b.directory_status}
                       </span>
                     </div>
 
-                    <div className="mt-3 text-xs text-slate-400 space-y-1">
+                    <div className="mt-3 text-xs text-[#64748B] space-y-1.5">
                       <div className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                        <MapPin className="w-3.5 h-3.5 text-[#64748B] shrink-0" />
                         <span className="truncate">{b.registered_address}</span>
                       </div>
-                      <div className="flex items-center gap-4 text-[11px] font-mono text-slate-500 pt-1">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-mono text-[#64748B] pt-0.5">
                         <span>{b.official_email}</span>
                         <span>{b.contact_number}</span>
                       </div>
@@ -308,16 +308,16 @@ export const BanksDirectoryView: React.FC = () => {
                   </div>
 
                   {/* Integration Status & Branch Drawer CTA */}
-                  <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+                  <div className="pt-3 border-t border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-slate-500">SWITCH INTEGRATION:</span>
+                      <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider">Switch Integration:</span>
                       <span
-                        className={`text-[10px] px-1.5 py-0.5 rounded border ${
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${
                           b.integration_status === 'APPROVED'
-                            ? 'bg-indigo-950 border-indigo-800 text-indigo-300'
+                            ? 'bg-[#EFF6FF] border-blue-200 text-[#2563EB]'
                             : b.integration_status === 'SANDBOX_READY'
-                            ? 'bg-amber-950 border-amber-800 text-amber-300'
-                            : 'bg-slate-800 border-slate-700 text-slate-400'
+                            ? 'bg-amber-50 border-amber-200 text-[#D97706]'
+                            : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#64748B]'
                         }`}
                       >
                         {b.integration_status}
@@ -327,7 +327,7 @@ export const BanksDirectoryView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setSelectedBankForBranches(b)}
-                      className="min-h-[38px] text-xs text-indigo-400 hover:text-indigo-300 flex items-center justify-start sm:justify-end gap-1 font-semibold cursor-pointer"
+                      className="min-h-[38px] text-xs text-[#2563EB] hover:text-blue-700 flex items-center justify-start sm:justify-end gap-1 font-semibold cursor-pointer"
                     >
                       <span>{b.branches?.length || b.participating_branches_count || 1} Branches</span>
                       <ChevronRight className="w-3.5 h-3.5" />
@@ -342,50 +342,50 @@ export const BanksDirectoryView: React.FC = () => {
 
       {/* TAB 2: PLATFORM ADMINISTRATOR REVIEW PORTAL */}
       {activeTab === 'reviews' && isPlatformAdmin && (
-        <div className="space-y-6">
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-            <h3 className="font-bold text-white text-xs font-mono uppercase text-amber-400 flex items-center gap-2">
+        <div className="space-y-5">
+          <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-1">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#D97706] flex items-center gap-2">
               <Shield className="w-4 h-4" />
               <span>Platform Administrator Review Queue</span>
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#64748B]">
               Applications submitted by institutions must be vetted for regulatory compliance before directory listing and switch connectivity.
             </p>
           </div>
 
-          <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
-            <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-slate-950/70 border-b border-slate-800 text-slate-400 text-[11px]">
+          <div className="rounded-xl bg-white border border-[#E2E8F0] shadow-xs overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] text-[11px] uppercase tracking-wider">
                 <tr>
-                  <th className="py-3 px-4 font-semibold">APPLICATION ID</th>
-                  <th className="py-3 px-4 font-semibold">LEGAL INSTITUTION</th>
-                  <th className="py-3 px-4 font-semibold">LICENCE NUMBER</th>
-                  <th className="py-3 px-4 font-semibold">REPRESENTATIVE</th>
-                  <th className="py-3 px-4 font-semibold">STATUS</th>
-                  <th className="py-3 px-4 font-semibold text-right">ACTION</th>
+                  <th className="py-3 px-4 font-semibold">Application ID</th>
+                  <th className="py-3 px-4 font-semibold">Legal Institution</th>
+                  <th className="py-3 px-4 font-semibold">Licence Number</th>
+                  <th className="py-3 px-4 font-semibold">Representative</th>
+                  <th className="py-3 px-4 font-semibold">Status</th>
+                  <th className="py-3 px-4 font-semibold text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-[#E2E8F0]">
                 {applications.map((appItem) => (
-                  <tr key={appItem.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-4 text-indigo-400">{appItem.id}</td>
-                    <td className="py-3 px-4 text-white font-semibold">{appItem.legal_name}</td>
-                    <td className="py-3 px-4 text-slate-300">{appItem.registration_licence_number}</td>
-                    <td className="py-3 px-4 text-slate-400">
+                  <tr key={appItem.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 text-[#2563EB] font-mono font-medium">{appItem.id}</td>
+                    <td className="py-3 px-4 text-[#172554] font-semibold">{appItem.legal_name}</td>
+                    <td className="py-3 px-4 text-[#172554] font-mono">{appItem.registration_licence_number}</td>
+                    <td className="py-3 px-4 text-[#64748B]">
                       {appItem.representative?.full_name} ({appItem.representative?.designation})
                     </td>
                     <td className="py-3 px-4">
                       <span
                         className={`text-[10px] px-2 py-0.5 rounded border uppercase font-bold ${
                           appItem.application_status === 'APPROVED'
-                            ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
+                            ? 'bg-green-50 border-green-200 text-[#16A34A]'
                             : appItem.application_status === 'UNDER_REVIEW'
-                            ? 'bg-amber-950/60 border-amber-800 text-amber-400'
+                            ? 'bg-amber-50 border-amber-200 text-[#D97706]'
                             : appItem.application_status === 'ADDITIONAL_INFO_REQUIRED'
-                            ? 'bg-purple-950/60 border-purple-800 text-purple-400'
+                            ? 'bg-purple-50 border-purple-200 text-purple-700'
                             : appItem.application_status === 'REJECTED'
-                            ? 'bg-rose-950/60 border-rose-800 text-rose-400'
-                            : 'bg-slate-800 border-slate-700 text-slate-300'
+                            ? 'bg-red-50 border-red-200 text-[#DC2626]'
+                            : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#64748B]'
                         }`}
                       >
                         {appItem.application_status}
@@ -394,7 +394,7 @@ export const BanksDirectoryView: React.FC = () => {
                     <td className="py-3 px-4 text-right">
                       <button
                         onClick={() => setSelectedApplication(appItem)}
-                        className="px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 font-medium text-xs transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-[#EFF6FF] hover:bg-blue-100 text-[#2563EB] border border-blue-200 font-semibold text-xs transition-colors cursor-pointer"
                       >
                         Review
                       </button>
@@ -409,75 +409,75 @@ export const BanksDirectoryView: React.FC = () => {
 
       {/* Application Review Drawer / Modal */}
       {selectedApplication && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl my-4 sm:my-8 max-h-[92vh] flex flex-col">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 shrink-0">
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-2xl w-full p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-xl my-4 sm:my-8 max-h-[92vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3 shrink-0">
               <div>
-                <span className="text-[10px] font-mono text-indigo-400 uppercase">
+                <span className="text-[11px] font-semibold text-[#2563EB] uppercase tracking-wider">
                   Application Dossier Review
                 </span>
-                <h3 className="text-base font-bold text-white font-mono">
+                <h3 className="text-base sm:text-lg font-bold text-[#172554]">
                   {selectedApplication.legal_name}
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedApplication(null)}
-                className="text-slate-400 hover:text-slate-200"
+                className="text-[#64748B] hover:text-[#172554] p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {actionError && (
-              <div className="p-3 rounded bg-rose-950/60 border border-rose-800 text-rose-300 text-xs">
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-[#DC2626] text-xs font-medium">
                 {actionError}
               </div>
             )}
 
-            <div className="flex-1 overflow-y-auto space-y-4 pr-1 text-xs font-mono">
-              <div className="p-3 rounded bg-slate-950 border border-slate-800 space-y-1.5">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Licence Number:</span>
-                  <span className="text-white font-bold">{selectedApplication.registration_licence_number}</span>
+            <div className="flex-1 overflow-y-auto space-y-4 pr-1 text-xs">
+              <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+                <div className="flex justify-between gap-3">
+                  <span className="text-[#64748B]">Licence Number:</span>
+                  <span className="text-[#172554] font-bold font-mono">{selectedApplication.registration_licence_number}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Institution Type:</span>
-                  <span className="text-indigo-300">{selectedApplication.bank_type}</span>
+                <div className="flex justify-between gap-3">
+                  <span className="text-[#64748B]">Institution Type:</span>
+                  <span className="text-[#2563EB] font-semibold">{selectedApplication.bank_type}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Registered Address:</span>
-                  <span className="text-slate-200 truncate max-w-xs">{selectedApplication.registered_address}</span>
+                <div className="flex justify-between gap-3">
+                  <span className="text-[#64748B]">Registered Address:</span>
+                  <span className="text-[#172554] truncate max-w-xs">{selectedApplication.registered_address}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Official Email:</span>
-                  <span className="text-slate-200">{selectedApplication.official_email}</span>
+                <div className="flex justify-between gap-3">
+                  <span className="text-[#64748B]">Official Email:</span>
+                  <span className="text-[#172554] font-mono">{selectedApplication.official_email}</span>
                 </div>
               </div>
 
               {/* Representative */}
-              <div className="p-3 rounded bg-slate-950 border border-slate-800 space-y-1">
-                <span className="text-[10px] text-indigo-400 font-bold block">AUTHORIZED REPRESENTATIVE</span>
-                <p className="text-white font-semibold">
+              <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
+                <span className="text-[11px] text-[#2563EB] font-bold uppercase tracking-wider block">Authorized Representative</span>
+                <p className="text-[#172554] font-semibold">
                   {selectedApplication.representative?.full_name} · {selectedApplication.representative?.designation}
                 </p>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-xs text-[#64748B]">
                   {selectedApplication.representative?.authorization_evidence_summary}
                 </p>
               </div>
 
               {/* Documents */}
-              <div className="p-3 rounded bg-slate-950 border border-slate-800 space-y-1.5">
-                <span className="text-[10px] text-indigo-400 font-bold block">ATTACHED REGULATORY DOCUMENTS</span>
+              <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+                <span className="text-[11px] text-[#2563EB] font-bold uppercase tracking-wider block">Attached Regulatory Documents</span>
                 {selectedApplication.documents?.length === 0 ? (
-                  <span className="text-slate-500 text-[11px]">No uploaded documents attached.</span>
+                  <span className="text-[#64748B] text-xs">No uploaded documents attached.</span>
                 ) : (
                   selectedApplication.documents.map((d, i) => (
-                    <div key={i} className="flex items-center justify-between text-[11px] py-1 border-b border-slate-900 last:border-0">
-                      <div className="flex items-center gap-1.5">
-                        <FileText className="w-3.5 h-3.5 text-indigo-400" />
-                        <span className="text-slate-200">{d.file_name}</span>
+                    <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-[#E2E8F0] last:border-0">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-[#2563EB]" />
+                        <span className="text-[#172554] font-mono">{d.file_name}</span>
                       </div>
-                      <span className="text-emerald-400">{d.verification_status}</span>
+                      <span className="text-[#16A34A] font-semibold">{d.verification_status}</span>
                     </div>
                   ))
                 )}
@@ -485,7 +485,7 @@ export const BanksDirectoryView: React.FC = () => {
 
               {/* Review notes input */}
               <div>
-                <label className="text-slate-400 block mb-1">
+                <label className="text-[#172554] font-medium block mb-1.5">
                   Administrator Review Notes / Reason Code:
                 </label>
                 <textarea
@@ -493,18 +493,18 @@ export const BanksDirectoryView: React.FC = () => {
                   placeholder="Enter compliance decision rationale..."
                   value={actionNotes}
                   onChange={(e) => setActionNotes(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded text-white text-xs focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-lg text-[#172554] placeholder-[#64748B] text-xs focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/15"
                 />
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="border-t border-slate-800 pt-3 flex flex-wrap items-center justify-between gap-2 shrink-0">
+            <div className="border-t border-[#E2E8F0] pt-3 flex flex-wrap items-center justify-between gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => handleRequestInfo(selectedApplication.id)}
                 disabled={actionLoading}
-                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-mono"
+                className="px-3.5 py-2 rounded-lg bg-amber-50 hover:bg-amber-100 text-[#D97706] border border-amber-200 text-xs font-semibold transition-colors cursor-pointer"
               >
                 Request Additional Info
               </button>
@@ -514,7 +514,7 @@ export const BanksDirectoryView: React.FC = () => {
                   type="button"
                   onClick={() => handleRejectApplication(selectedApplication.id)}
                   disabled={actionLoading}
-                  className="px-3.5 py-1.5 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800 text-xs font-mono"
+                  className="px-3.5 py-2 rounded-lg bg-red-50 hover:bg-red-100 text-[#DC2626] border border-red-200 text-xs font-semibold transition-colors cursor-pointer"
                 >
                   Reject
                 </button>
@@ -523,7 +523,7 @@ export const BanksDirectoryView: React.FC = () => {
                   type="button"
                   onClick={() => handleApproveApplication(selectedApplication.id)}
                   disabled={actionLoading}
-                  className="px-4 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold"
+                  className="px-4 py-2 rounded-lg bg-[#16A34A] hover:bg-green-700 text-white text-xs font-semibold transition-colors shadow-xs cursor-pointer"
                 >
                   Approve to Directory
                 </button>
@@ -535,20 +535,20 @@ export const BanksDirectoryView: React.FC = () => {
 
       {/* Branches Drawer */}
       {selectedBankForBranches && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-2xl max-h-[92vh] flex flex-col">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-xl max-h-[92vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
               <div>
-                <span className="text-[10px] font-mono text-indigo-400 uppercase">
+                <span className="text-[11px] font-semibold text-[#2563EB] uppercase tracking-wider">
                   Authorized Branch Directory
                 </span>
-                <h3 className="text-base font-bold text-white">
+                <h3 className="text-base font-bold text-[#172554]">
                   {selectedBankForBranches.legal_name}
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedBankForBranches(null)}
-                className="text-slate-400 hover:text-slate-200"
+                className="text-[#64748B] hover:text-[#172554] p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -556,18 +556,18 @@ export const BanksDirectoryView: React.FC = () => {
 
             <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
               {(!selectedBankForBranches.branches || selectedBankForBranches.branches.length === 0) ? (
-                <p className="text-xs text-slate-500 font-mono py-4 text-center">
+                <p className="text-xs text-[#64748B] py-4 text-center">
                   No registered active branches currently enrolled.
                 </p>
               ) : (
                 selectedBankForBranches.branches.map((br) => (
-                  <div key={br.id} className="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1 text-xs">
+                  <div key={br.id} className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1 text-xs">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-white">{br.name}</span>
-                      <span className="font-mono text-[10px] text-indigo-400">{br.branch_code}</span>
+                      <span className="font-bold text-[#172554]">{br.name}</span>
+                      <span className="font-mono text-[11px] text-[#2563EB] font-semibold">{br.branch_code}</span>
                     </div>
-                    <p className="text-slate-400 text-[11px] flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <p className="text-[#64748B] text-[11px] flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#64748B] shrink-0" />
                       <span>{br.address || br.location}</span>
                     </p>
                   </div>
@@ -575,11 +575,11 @@ export const BanksDirectoryView: React.FC = () => {
               )}
             </div>
 
-            <div className="border-t border-slate-800 pt-3 text-right">
+            <div className="border-t border-[#E2E8F0] pt-3 text-right">
               <button
                 type="button"
                 onClick={() => setSelectedBankForBranches(null)}
-                className="px-4 py-1.5 rounded-lg bg-slate-800 text-white text-xs"
+                className="px-4 py-2 rounded-lg bg-[#F8FAFC] hover:bg-slate-100 border border-[#E2E8F0] text-[#172554] text-xs font-semibold transition-colors cursor-pointer"
               >
                 Close
               </button>

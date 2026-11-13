@@ -110,39 +110,39 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-slate-800 pb-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB]">
           <span>STEP 5 OF 5</span>
-          <span>·</span>
+          <span className="text-slate-300">·</span>
           <span>AUTHORIZED SIMULATED WITHDRAWAL & REDEMPTION</span>
         </div>
-        <h2 className="text-xl font-bold text-white mt-1">
+        <h2 className="text-xl font-bold text-[#172554] mt-1">
           Cryptographic Authorization Issued & Cash Dispense Gate
         </h2>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-[#64748B] mt-1">
           Signed short-lived authorization bound to transaction, customer, visiting branch, and amount.
         </p>
       </div>
 
       {/* Hero Authorization Banner */}
-      <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-950/60 border border-emerald-800 flex items-center justify-center text-emerald-400 shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-green-50 border border-green-200 flex items-center justify-center text-[#16A34A] shrink-0">
             <CheckCircle2 className="w-7 h-7" />
           </div>
           <div>
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="text-emerald-400 font-bold uppercase tracking-wide">
+            <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+              <span className="text-[#16A34A] font-bold uppercase tracking-wide">
                 STATUS: {currentTx.status}
               </span>
-              <span className="text-slate-500">·</span>
-              <span className="text-slate-400">REF: {currentTx.transaction_reference}</span>
+              <span className="text-slate-300">·</span>
+              <span className="text-[#64748B]">REF: {currentTx.transaction_reference}</span>
             </div>
-            <h3 className="text-2xl font-bold text-white font-mono mt-1 tabular-nums">
+            <h3 className="text-2xl font-bold text-[#172554] font-mono mt-1 tabular-nums">
               ₹{currentTx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              Authorized for customer <strong className="text-white">{customer.full_name}</strong> at visiting branch <strong className="text-white">{branch.name}</strong>.
+            <p className="text-xs text-[#64748B] mt-1">
+              Authorized for customer <strong className="text-[#172554]">{customer.full_name}</strong> at visiting branch <strong className="text-[#172554]">{branch.name}</strong>.
             </p>
           </div>
         </div>
@@ -153,7 +153,7 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
             type="button"
             onClick={handleRedeemAndDispense}
             disabled={redeeming}
-            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 text-white font-semibold text-xs transition-colors shadow-lg shadow-emerald-900/30 whitespace-nowrap shrink-0"
+            className="min-h-[44px] flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#16A34A] hover:bg-green-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold text-xs transition-colors shadow-xs whitespace-nowrap shrink-0 cursor-pointer"
           >
             <DollarSign className="w-4 h-4" />
             <span>
@@ -161,9 +161,9 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
             </span>
           </button>
         ) : (
-          <div className="px-4 py-2.5 rounded-lg bg-emerald-950/80 border border-emerald-800 text-emerald-300 font-mono text-xs text-right shrink-0">
+          <div className="px-4 py-2.5 rounded-lg bg-green-50 border border-green-200 text-[#16A34A] text-xs text-right shrink-0">
             <span className="font-bold block">✓ CASH DISPENSED (SIMULATED)</span>
-            <span className="text-[10px] text-emerald-400/80 block mt-0.5">
+            <span className="text-[11px] text-[#16A34A]/80 block mt-0.5">
               Token Burned · Ledger Updated
             </span>
           </div>
@@ -172,51 +172,51 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
 
       {/* Animated Cash Dispenser Tray (Simulated) */}
       {cashDispensed && (
-        <div className="p-6 rounded-xl bg-slate-950 border border-emerald-500/40 space-y-4 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 mb-1">
+        <div className="p-6 rounded-xl bg-green-50 border border-green-200 space-y-4 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white border border-green-200 text-[#16A34A] mb-1 shadow-2xs">
             <DollarSign className="w-8 h-8 animate-bounce" />
           </div>
           <div>
-            <h4 className="text-base font-bold text-white">
+            <h4 className="text-base font-bold text-[#172554]">
               Simulated Currency Notes Released at Counter
             </h4>
-            <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+            <p className="text-xs text-[#64748B] mt-1 max-w-md mx-auto">
               In an operational branch deployment, this triggers the automated cash dispenser (e.g. Teller Cash Recycler) to dispense physical currency notes.
             </p>
           </div>
 
-          <div className="inline-block p-4 rounded-lg bg-slate-900 border border-slate-800 text-left font-mono text-xs max-w-md w-full space-y-1.5">
-            <div className="flex justify-between text-slate-400">
+          <div className="inline-block p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-2xs text-left text-xs max-w-md w-full space-y-2">
+            <div className="flex justify-between text-[#64748B]">
               <span>Customer:</span>
-              <span className="text-white">{customer.full_name}</span>
+              <span className="text-[#172554] font-semibold">{customer.full_name}</span>
             </div>
-            <div className="flex justify-between text-slate-400">
+            <div className="flex justify-between text-[#64748B]">
               <span>Customer PAN:</span>
-              <span className="text-white">{customer.synthetic_pan}</span>
+              <span className="text-[#172554] font-mono">{customer.synthetic_pan}</span>
             </div>
-            <div className="flex justify-between text-slate-400">
+            <div className="flex justify-between text-[#64748B]">
               <span>Visiting Branch:</span>
-              <span className="text-white">{branch.name}</span>
+              <span className="text-[#172554] font-medium">{branch.name}</span>
             </div>
-            <div className="flex justify-between text-slate-400">
+            <div className="flex justify-between text-[#64748B]">
               <span>Registered Home:</span>
-              <span className="text-white">{customer.home_branch_id}</span>
+              <span className="text-[#172554] font-mono">{customer.home_branch_id}</span>
             </div>
-            <div className="border-t border-slate-800 my-1 pt-1 flex justify-between font-bold">
-              <span className="text-slate-300">Amount Dispensed:</span>
-              <span className="text-emerald-400">
+            <div className="border-t border-[#E2E8F0] my-1 pt-2 flex justify-between font-bold">
+              <span className="text-[#172554]">Amount Dispensed:</span>
+              <span className="text-[#16A34A] font-mono tabular-nums">
                 ₹{currentTx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
-            <div className="flex justify-between text-slate-400">
+            <div className="flex justify-between text-[#64748B]">
               <span>New Available Balance:</span>
-              <span className="text-white">
+              <span className="text-[#172554] font-mono font-semibold tabular-nums">
                 ₹{remainingBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
-            <div className="flex justify-between text-slate-400">
+            <div className="flex justify-between text-[#64748B]">
               <span>Remaining Daily Cap:</span>
-              <span className="text-white">
+              <span className="text-[#172554] font-mono font-semibold tabular-nums">
                 ₹{remainingAllowance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
@@ -225,33 +225,33 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
       )}
 
       {/* Cryptographic Authorization Token Metadata */}
-      <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
-            <KeyRound className="w-3.5 h-3.5 text-indigo-400" />
+      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2E8F0] pb-2">
+          <span className="text-xs font-bold text-[#172554] uppercase tracking-wider flex items-center gap-2">
+            <KeyRound className="w-3.5 h-3.5 text-[#2563EB]" />
             <span>Cryptographic Authorization Token (HMAC-SHA256)</span>
           </span>
-          <span className="text-[10px] font-mono text-slate-500">
+          <span className="text-[11px] font-mono text-[#64748B]">
             Expires in: 180s · JTI: {tokenJti}
           </span>
         </div>
 
-        <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300 break-all select-all">
+        <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] font-mono text-[11px] text-[#172554] break-all select-all">
           {authToken}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] font-mono text-slate-400">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] font-mono text-[#64748B]">
           <div>
             <span>Binding Hash: </span>
-            <span className="text-slate-200">SHA256(tx+cust+br+amt)</span>
+            <span className="text-[#172554] font-semibold">SHA256(tx+cust+br+amt)</span>
           </div>
           <div>
             <span>Single-Use Nonce (JTI): </span>
-            <span className="text-indigo-300">{tokenJti}</span>
+            <span className="text-[#2563EB] font-semibold">{tokenJti}</span>
           </div>
           <div>
             <span>Status: </span>
-            <span className={redeemed ? 'text-emerald-400 font-bold' : 'text-amber-400'}>
+            <span className={redeemed ? 'text-[#16A34A] font-bold' : 'text-[#D97706] font-bold'}>
               {redeemed ? 'BURNED / REDEEMED' : 'ISSUED / UNREDEEMED'}
             </span>
           </div>
@@ -259,16 +259,16 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
       </div>
 
       {/* Security Demonstration / Attack Resistance Actions */}
-      <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-1.5">
-            <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2E8F0] pb-2">
+          <span className="text-xs font-bold text-[#172554] uppercase tracking-wider flex items-center gap-1.5">
+            <ShieldAlert className="w-3.5 h-3.5 text-[#D97706]" />
             <span>Attack Resistance Proof & Verification Lab</span>
           </span>
-          <span className="text-[10px] font-mono text-slate-500">Live Server Rejection Tests</span>
+          <span className="text-[11px] text-[#64748B]">Live Server Rejection Tests</span>
         </div>
 
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-[#64748B]">
           Exercise the authoritative security checks right now against this transaction to confirm that replay attempts and modified tokens fail:
         </p>
 
@@ -276,49 +276,49 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
           <button
             type="button"
             onClick={handleAttemptReplayAttack}
-            className="px-3.5 py-2 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-800 text-rose-300 hover:text-rose-200 text-xs font-mono flex items-center gap-1.5 transition-colors"
+            className="min-h-[40px] px-3.5 py-2 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 text-[#DC2626] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-rose-400" />
+            <RotateCcw className="w-3.5 h-3.5 text-[#DC2626]" />
             <span>Attempt Token Replay (Test 16)</span>
           </button>
 
           <button
             type="button"
             onClick={handleAttemptTamperedToken}
-            className="px-3.5 py-2 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-800 text-amber-300 hover:text-amber-200 text-xs font-mono flex items-center gap-1.5 transition-colors"
+            className="min-h-[40px] px-3.5 py-2 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-200 text-[#D97706] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Ban className="w-3.5 h-3.5 text-amber-400" />
+            <Ban className="w-3.5 h-3.5 text-[#D97706]" />
             <span>Attempt Tampered Signature (Test 13)</span>
           </button>
         </div>
 
         {attackOutcome && (
           <div
-            className={`p-3.5 rounded-lg border text-xs font-mono ${
+            className={`p-3.5 rounded-lg border text-xs ${
               attackOutcome.success
-                ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300'
-                : 'bg-rose-950/40 border-rose-800 text-rose-300'
+                ? 'bg-green-50 border-green-200 text-[#16A34A]'
+                : 'bg-red-50 border-red-200 text-[#DC2626]'
             }`}
           >
             <div className="font-bold flex items-center gap-1.5 mb-1">
               {attackOutcome.success ? (
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 text-[#16A34A]" />
               ) : (
-                <XCircle className="w-4 h-4 text-rose-400" />
+                <XCircle className="w-4 h-4 text-[#DC2626]" />
               )}
               <span>{attackOutcome.type} Outcome</span>
             </div>
-            <p className="text-[11px] text-slate-300">{attackOutcome.message}</p>
+            <p className="text-[11px] font-mono text-[#172554]">{attackOutcome.message}</p>
           </div>
         )}
       </div>
 
       {/* Navigation Footer */}
-      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-slate-800">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-[#E2E8F0]">
         <button
           type="button"
           onClick={onViewAudit}
-          className="min-h-[44px] flex items-center justify-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-medium px-4 py-2.5 rounded-lg border border-slate-800 sm:border-transparent"
+          className="min-h-[44px] flex items-center justify-center gap-1.5 text-xs text-[#2563EB] hover:text-blue-700 font-semibold px-4 py-2.5 rounded-lg border border-[#E2E8F0] bg-white hover:bg-[#EFF6FF] cursor-pointer"
         >
           <FileText className="w-4 h-4" />
           <span>View Recorded Audit Events →</span>
@@ -327,7 +327,7 @@ export const Step5AuthorizedResult: React.FC<Step5Props> = ({
         <button
           type="button"
           onClick={onFinish}
-          className="min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs transition-colors shadow-sm w-full sm:w-auto"
+          className="min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#2563EB] hover:bg-blue-700 text-white font-semibold text-xs transition-colors shadow-xs w-full sm:w-auto cursor-pointer"
         >
           <span>Return to Dashboard</span>
           <ArrowRight className="w-4 h-4" />

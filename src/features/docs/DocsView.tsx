@@ -14,24 +14,24 @@ export const DocsView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('architecture');
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6">
       {/* Title */}
-      <div className="border-b border-slate-800 pb-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
-          <span>ACADEMIC DELIVERABLES</span>
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB] uppercase tracking-wide">
+          <span>Academic Deliverables</span>
           <span>·</span>
-          <span>SECTION 15 SPECIFICATIONS</span>
+          <span>Section 15 Specifications</span>
         </div>
-        <h1 className="text-2xl font-bold tracking-tight text-white mt-1">
-          System Architecture, Database ERD & Security Documentation
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#172554] mt-1">
+          System Architecture, Database ERD &amp; Security Documentation
         </h1>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs sm:text-sm text-[#64748B] mt-1">
           Formal engineering documentation for the SecureCross V2.0 biometric cross-branch cash withdrawal authorization engine.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-2">
+      <div className="flex flex-wrap gap-2 border-b border-[#E2E8F0] pb-3">
         {[
           { id: 'architecture', label: 'Architecture & Flow', icon: Layers },
           { id: 'database', label: 'PostgreSQL Schema & ERD', icon: Database },
@@ -46,13 +46,13 @@ export const DocsView: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-mono transition-colors ${
+              className={`min-h-[40px] flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                 isActive
-                  ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/60 font-semibold'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-[#EFF6FF] text-[#2563EB] border border-blue-200 shadow-2xs'
+                  : 'bg-white text-[#64748B] hover:text-[#172554] hover:bg-slate-50 border border-[#E2E8F0]'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
             </button>
           );
@@ -61,12 +61,12 @@ export const DocsView: React.FC = () => {
 
       {/* Tab 1: Architecture & Flow */}
       {activeTab === 'architecture' && (
-        <div className="space-y-6 text-xs text-slate-300">
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-              System Architecture & 5-Step Workflow Pipeline
+        <div className="space-y-6 text-xs text-[#64748B]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+            <h2 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
+              System Architecture &amp; 5-Step Workflow Pipeline
             </h2>
-            <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] leading-relaxed text-indigo-200">
+            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] font-mono text-[11px] leading-relaxed text-[#172554]">
               <pre className="overflow-x-auto whitespace-pre">
 {`+---------------------------------------------------------------------------------------------------+
 |                                      SECURECROSS V2.0 PIPELINE                                     |
@@ -114,12 +114,12 @@ export const DocsView: React.FC = () => {
 
       {/* Tab 2: PostgreSQL Schema & ERD */}
       {activeTab === 'database' && (
-        <div className="space-y-6 text-xs text-slate-300">
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-              PostgreSQL Relational Schema & Table Definitions (Section 8)
+        <div className="space-y-6 text-xs text-[#64748B]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+            <h2 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
+              PostgreSQL Relational Schema &amp; Table Definitions (Section 8)
             </h2>
-            <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] leading-relaxed text-slate-300">
+            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] font-mono text-[11px] leading-relaxed text-[#172554]">
               <pre className="overflow-x-auto whitespace-pre">
 {`-- 1. Branches Table
 CREATE TABLE branches (
@@ -226,57 +226,57 @@ CREATE TABLE audit_events (
 
       {/* Tab 3: Threat Model (STRIDE) */}
       {activeTab === 'threat_model' && (
-        <div className="space-y-6 text-xs text-slate-300">
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-              STRIDE Threat Modeling & Countermeasure Matrix
+        <div className="space-y-6 text-xs text-[#64748B]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+            <h2 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
+              STRIDE Threat Modeling &amp; Countermeasure Matrix
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
-                <span className="font-bold text-rose-400 font-mono block">
-                  1. SPOOFING IDENTITY
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+                <span className="font-bold text-[#DC2626] uppercase tracking-wide block">
+                  1. Spoofing Identity
                 </span>
-                <p className="text-slate-400">
-                  <strong className="text-slate-200">Threat:</strong> Impersonator uses 2D photo, video loop, or silicon mask of customer.
+                <p className="text-[#64748B]">
+                  <strong className="text-[#172554]">Threat:</strong> Impersonator uses 2D photo, video loop, or silicon mask of customer.
                 </p>
-                <p className="text-slate-400">
-                  <strong className="text-emerald-400">Mitigation:</strong> Presentation Attack Detection (PAD) liveness analysis coupled with mandatory secondary biometric modality (fingerprint/iris).
+                <p className="text-[#64748B]">
+                  <strong className="text-[#16A34A]">Mitigation:</strong> Presentation Attack Detection (PAD) liveness analysis coupled with mandatory secondary biometric modality (fingerprint/iris).
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
-                <span className="font-bold text-amber-400 font-mono block">
-                  2. TAMPERING WITH TRANSACTION
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+                <span className="font-bold text-[#D97706] uppercase tracking-wide block">
+                  2. Tampering with Transaction
                 </span>
-                <p className="text-slate-400">
-                  <strong className="text-slate-200">Threat:</strong> Rogue actor modifies authorization payload to inflate amount or change branch.
+                <p className="text-[#64748B]">
+                  <strong className="text-[#172554]">Threat:</strong> Rogue actor modifies authorization payload to inflate amount or change branch.
                 </p>
-                <p className="text-slate-400">
-                  <strong className="text-emerald-400">Mitigation:</strong> HMAC-SHA256 signature strictly binds Transaction ID, Customer ID, Branch ID, and Amount. Any tampering invalidates signature.
+                <p className="text-[#64748B]">
+                  <strong className="text-[#16A34A]">Mitigation:</strong> HMAC-SHA256 signature strictly binds Transaction ID, Customer ID, Branch ID, and Amount. Any tampering invalidates signature.
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
-                <span className="font-bold text-indigo-400 font-mono block">
-                  3. REPUDIATION
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+                <span className="font-bold text-[#2563EB] uppercase tracking-wide block">
+                  3. Repudiation
                 </span>
-                <p className="text-slate-400">
-                  <strong className="text-slate-200">Threat:</strong> Customer or teller denies authorizing withdrawal.
+                <p className="text-[#64748B]">
+                  <strong className="text-[#172554]">Threat:</strong> Customer or teller denies authorizing withdrawal.
                 </p>
-                <p className="text-slate-400">
-                  <strong className="text-emerald-400">Mitigation:</strong> Structured audit logs record correlation IDs, operator credentials, timestamp, biometric confidence scores, and token JTI.
+                <p className="text-[#64748B]">
+                  <strong className="text-[#16A34A]">Mitigation:</strong> Structured audit logs record correlation IDs, operator credentials, timestamp, biometric confidence scores, and token JTI.
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
-                <span className="font-bold text-purple-400 font-mono block">
-                  4. REPLAY ATTACKS
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+                <span className="font-bold text-purple-700 uppercase tracking-wide block">
+                  4. Replay Attacks
                 </span>
-                <p className="text-slate-400">
-                  <strong className="text-slate-200">Threat:</strong> Intercepted valid token submitted repeatedly to disburse cash multiple times.
+                <p className="text-[#64748B]">
+                  <strong className="text-[#172554]">Threat:</strong> Intercepted valid token submitted repeatedly to disburse cash multiple times.
                 </p>
-                <p className="text-slate-400">
-                  <strong className="text-emerald-400">Mitigation:</strong> Single-use JTI ledger. Token status transitions to REDEEMED atomically upon first use; subsequent submissions are rejected (Test 16).
+                <p className="text-[#64748B]">
+                  <strong className="text-[#16A34A]">Mitigation:</strong> Single-use JTI ledger. Token status transitions to REDEEMED atomically upon first use; subsequent submissions are rejected (Test 16).
                 </p>
               </div>
             </div>
@@ -286,12 +286,12 @@ CREATE TABLE audit_events (
 
       {/* Tab 4: API Endpoints */}
       {activeTab === 'api' && (
-        <div className="space-y-6 text-xs text-slate-300">
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+        <div className="space-y-6 text-xs text-[#64748B]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+            <h2 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
               Versioned REST API Endpoints (/api/v1)
             </h2>
-            <div className="divide-y divide-slate-800 font-mono text-[11px]">
+            <div className="divide-y divide-[#E2E8F0] text-xs">
               {[
                 { method: 'POST', path: '/api/v1/auth/login', desc: 'Operator login with RBAC role' },
                 { method: 'GET', path: '/api/v1/branches', desc: 'List active banking branches' },
@@ -306,20 +306,20 @@ CREATE TABLE audit_events (
                 { method: 'GET', path: '/api/v1/audit-events', desc: 'Query tamper-evident audit records' },
                 { method: 'POST', path: '/api/v1/security-tests/run', desc: 'Execute Section 13 security test suite' },
               ].map((ep) => (
-                <div key={ep.path} className="py-2.5 flex items-center justify-between">
+                <div key={ep.path} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-3">
                     <span
-                      className={`px-2 py-0.5 rounded font-bold ${
+                      className={`px-2 py-0.5 rounded font-mono font-bold text-[10px] border ${
                         ep.method === 'POST'
-                          ? 'bg-indigo-950 text-indigo-400 border border-indigo-800'
-                          : 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                          ? 'bg-[#EFF6FF] text-[#2563EB] border-blue-200'
+                          : 'bg-green-50 text-[#16A34A] border-green-200'
                       }`}
                     >
                       {ep.method}
                     </span>
-                    <span className="text-white font-semibold">{ep.path}</span>
+                    <span className="text-[#172554] font-mono font-semibold">{ep.path}</span>
                   </div>
-                  <span className="text-slate-400">{ep.desc}</span>
+                  <span className="text-[#64748B]">{ep.desc}</span>
                 </div>
               ))}
             </div>
@@ -329,23 +329,23 @@ CREATE TABLE audit_events (
 
       {/* Tab 5: Biometric Strategy */}
       {activeTab === 'biometrics' && (
-        <div className="space-y-6 text-xs text-slate-300">
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-              Biometric Verification Architecture & Adapter Strategy (Section 10)
+        <div className="space-y-6 text-xs text-[#64748B]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+            <h2 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
+              Biometric Verification Architecture &amp; Adapter Strategy (Section 10)
             </h2>
-            <p className="text-slate-400">
+            <p className="text-[#64748B]">
               In accordance with project rules 8, 9, and 13:
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-slate-300">
+            <ul className="list-disc pl-5 space-y-2.5 text-[#64748B] leading-relaxed">
               <li>
-                <strong className="text-white">Zero Raw Biometric Storage:</strong> Raw camera frames and full biometric samples are processed in volatile memory only and discarded. Only authorized cryptographic reference hashes are verified.
+                <strong className="text-[#172554]">Zero Raw Biometric Storage:</strong> Raw camera frames and full biometric samples are processed in volatile memory only and discarded. Only authorized cryptographic reference hashes are verified.
               </li>
               <li>
-                <strong className="text-white">Adapter Decoupling:</strong> The hardware biometric layer is mediated via <code className="text-indigo-300 bg-slate-950 px-1 py-0.5 rounded">IBiometricAdapter</code>, with active <code className="text-indigo-300 bg-slate-950 px-1 py-0.5 rounded">MockHardwareAdapterV2</code> allowing plug-and-play future connection to certified UIDAI/Aadhaar or bank-approved physical scanners without altering withdrawal workflows.
+                <strong className="text-[#172554]">Adapter Decoupling:</strong> The hardware biometric layer is mediated via <code className="text-[#2563EB] bg-[#EFF6FF] border border-blue-200 px-1.5 py-0.5 rounded font-mono">IBiometricAdapter</code>, with active <code className="text-[#2563EB] bg-[#EFF6FF] border border-blue-200 px-1.5 py-0.5 rounded font-mono">MockHardwareAdapterV2</code> allowing plug-and-play future connection to certified UIDAI/Aadhaar or bank-approved physical scanners without altering withdrawal workflows.
               </li>
               <li>
-                <strong className="text-white">Honest Labeling:</strong> The prototype explicitly labels mock and simulated results as such. Ordinary webcams are never claimed to perform physical fingerprint scanning.
+                <strong className="text-[#172554]">Honest Labeling:</strong> The prototype explicitly labels mock and simulated results as such. Ordinary webcams are never claimed to perform physical fingerprint scanning.
               </li>
             </ul>
           </div>
@@ -354,29 +354,29 @@ CREATE TABLE audit_events (
 
       {/* Tab 6: Demo Script */}
       {activeTab === 'demo_script' && (
-        <div className="space-y-6 text-xs text-slate-300">
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-              Examiner Demonstration Walkthrough & Script
+        <div className="space-y-6 text-xs text-[#64748B]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+            <h2 className="text-sm font-bold text-[#172554] uppercase tracking-wider">
+              Examiner Demonstration Walkthrough &amp; Script
             </h2>
-            <ol className="list-decimal pl-5 space-y-3">
+            <ol className="list-decimal pl-5 space-y-3 leading-relaxed">
               <li>
-                <strong className="text-white">Step 1 — Start Cardless Withdrawal:</strong> Navigate to New Withdrawal. Select Delhi Connaught Place Branch (visiting). Select synthetic customer <em>Aarav Mehta</em> (registered in Mumbai BKC). Enter ₹15,000.
+                <strong className="text-[#172554]">Step 1 — Start Cardless Withdrawal:</strong> Navigate to New Withdrawal. Select Delhi Connaught Place Branch (visiting). Select synthetic customer <em>Aarav Mehta</em> (registered in Mumbai BKC). Enter ₹15,000.
               </li>
               <li>
-                <strong className="text-white">Step 2 — Combined Identity Verification:</strong> Open live webcam or synthetic camera. Show facial alignment guide. Click "Capture Frame & Run Combined Verification". Point out ArcFace similarity (94.2%), PAD liveness score (96.7%), and secondary biometric adapter match.
+                <strong className="text-[#172554]">Step 2 — Combined Identity Verification:</strong> Open live webcam or synthetic camera. Show facial alignment guide. Click &quot;Capture Frame &amp; Run Combined Verification&quot;. Point out ArcFace similarity (94.2%), PAD liveness score (96.7%), and secondary biometric adapter match.
               </li>
               <li>
-                <strong className="text-white">Step 3 — Fault Injection Demonstration:</strong> On Step 2 or 3, toggle "Simulate Presentation Attack / Spoof" or "Simulate Gateway Timeout". Demonstrate that the backend fails closed immediately with descriptive security messages.
+                <strong className="text-[#172554]">Step 3 — Fault Injection Demonstration:</strong> On Step 2 or 3, toggle &quot;Simulate Presentation Attack / Spoof&quot; or &quot;Simulate Gateway Timeout&quot;. Demonstrate that the backend fails closed immediately with descriptive security messages.
               </li>
               <li>
-                <strong className="text-white">Step 4 — Authoritative Transaction Security:</strong> Review the 6-point checklist. Verify available ledger balance and ₹50,000 daily limit deduction math. Click "Authorize & Sign Withdrawal Token".
+                <strong className="text-[#172554]">Step 4 — Authoritative Transaction Security:</strong> Review the 6-point checklist. Verify available ledger balance and ₹50,000 daily limit deduction math. Click &quot;Authorize &amp; Sign Withdrawal Token&quot;.
               </li>
               <li>
-                <strong className="text-white">Step 5 — Redemption & Anti-Replay Proof:</strong> Click "Redeem Authorization & Dispense Cash". Once redeemed, click "Attempt Token Replay (Test 16)" and "Attempt Tampered Signature (Test 13)" to show live server rejection!
+                <strong className="text-[#172554]">Step 5 — Redemption &amp; Anti-Replay Proof:</strong> Click &quot;Redeem Authorization &amp; Dispense Cash&quot;. Once redeemed, click &quot;Attempt Token Replay (Test 16)&quot; and &quot;Attempt Tampered Signature (Test 13)&quot; to show live server rejection!
               </li>
               <li>
-                <strong className="text-white">Step 6 — Security Test Lab & Audit Log:</strong> Navigate to Security Lab to execute all 28 automated tests. Open Security Audit to view the complete tamper-evident audit trail with correlation IDs.
+                <strong className="text-[#172554]">Step 6 — Security Test Lab &amp; Audit Log:</strong> Navigate to Security Lab to execute all 28 automated tests. Open Security Audit to view the complete tamper-evident audit trail with correlation IDs.
               </li>
             </ol>
           </div>

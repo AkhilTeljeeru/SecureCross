@@ -138,58 +138,58 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-slate-800 pb-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB]">
           <span>STEP 4 OF 5</span>
-          <span>·</span>
+          <span className="text-slate-300">·</span>
           <span>TRANSACTION-SECURITY AUTHORIZATION GATE</span>
         </div>
-        <h2 className="text-xl font-bold text-white mt-1">
+        <h2 className="text-xl font-bold text-[#172554] mt-1">
           Server-Side Authoritative Security Validation
         </h2>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-[#64748B] mt-1">
           The backend authoritative engine verifies all risk parameters, daily limit allowances, and identity bounds before generating a cryptographically signed authorization token.
         </p>
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-950/50 border border-rose-800 text-rose-300 text-xs space-y-1">
-          <div className="flex items-center gap-2 font-bold font-mono">
-            <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-[#DC2626] text-xs space-y-1">
+          <div className="flex items-center gap-2 font-bold">
+            <XCircle className="w-4 h-4 text-[#DC2626] shrink-0" />
             <span>AUTHORIZATION DENIED BY SERVER POLICY</span>
           </div>
-          <p className="text-slate-300">{error}</p>
+          <p className="text-[#172554]">{error}</p>
         </div>
       )}
 
       {/* Transaction & Amount Overview Header */}
-      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono">
+      <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
         <div>
-          <span className="text-[10px] text-slate-500 block">TRANSACTION REF</span>
-          <span className="font-bold text-white block mt-0.5">
+          <span className="text-[10px] font-semibold text-[#64748B] uppercase block">TRANSACTION REF</span>
+          <span className="font-bold font-mono text-[#172554] block mt-0.5">
             {transaction?.transaction_reference || 'SC-INITIATING'}
           </span>
         </div>
 
         <div>
-          <span className="text-[10px] text-slate-500 block">REQUESTED WITHDRAWAL</span>
-          <span className="font-bold text-lg text-emerald-400 block mt-0.5 tabular-nums">
+          <span className="text-[10px] font-semibold text-[#64748B] uppercase block">REQUESTED WITHDRAWAL</span>
+          <span className="font-bold font-mono text-lg text-[#16A34A] block mt-0.5 tabular-nums">
             ₹{amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>
 
         <div>
-          <span className="text-[10px] text-slate-500 block">TODAY'S USAGE (ACCUMULATED)</span>
-          <span className="font-bold text-white block mt-0.5 tabular-nums">
+          <span className="text-[10px] font-semibold text-[#64748B] uppercase block">TODAY'S USAGE (ACCUMULATED)</span>
+          <span className="font-bold font-mono text-[#172554] block mt-0.5 tabular-nums">
             ₹{usedToday.toLocaleString('en-IN', { minimumFractionDigits: 2 })} / ₹50,000
           </span>
         </div>
 
         <div>
-          <span className="text-[10px] text-slate-500 block">AFTER WITHDRAWAL</span>
+          <span className="text-[10px] font-semibold text-[#64748B] uppercase block">AFTER WITHDRAWAL</span>
           <span
-            className={`font-bold block mt-0.5 tabular-nums ${
-              withinDailyLimit ? 'text-slate-200' : 'text-rose-400'
+            className={`font-bold font-mono block mt-0.5 tabular-nums ${
+              withinDailyLimit ? 'text-[#172554]' : 'text-[#DC2626]'
             }`}
           >
             ₹{Math.max(0, remainingAllowance - amount).toLocaleString('en-IN', {
@@ -201,13 +201,13 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
       </div>
 
       {/* 6-Point Security Rule Checklist */}
-      <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-indigo-400" />
+      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-3">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
+          <span className="text-xs font-bold text-[#172554] uppercase tracking-wider flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[#2563EB]" />
             <span>Authoritative Compliance Verification Pipeline</span>
           </span>
-          <span className="text-[10px] font-mono text-slate-400">
+          <span className="text-[11px] font-mono font-semibold text-[#64748B]">
             {checks.filter((c) => c.passed).length} / {checks.length} Rules Passed
           </span>
         </div>
@@ -216,51 +216,51 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
           {checks.map((chk) => (
             <div
               key={chk.id}
-              className={`p-3 rounded-lg border flex items-start justify-between text-xs transition-colors ${
+              className={`p-3 rounded-lg border flex items-start justify-between gap-3 text-xs transition-colors ${
                 chk.passed
-                  ? 'bg-slate-950/50 border-slate-800/80'
-                  : 'bg-rose-950/20 border-rose-800/60'
+                  ? 'bg-[#F8FAFC] border-[#E2E8F0]'
+                  : 'bg-red-50 border-red-200'
               }`}
             >
               <div className="flex items-start gap-3">
                 {chk.passed ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-[#16A34A] shrink-0 mt-0.5" />
                 ) : (
-                  <XCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <XCircle className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
                 )}
                 <div>
-                  <span className="font-semibold text-slate-200 block">{chk.title}</span>
-                  <span className="text-[11px] text-slate-400 block mt-0.5">{chk.detail}</span>
+                  <span className="font-semibold text-[#172554] block">{chk.title}</span>
+                  <span className="text-[11px] text-[#64748B] block mt-0.5">{chk.detail}</span>
                 </div>
               </div>
 
-              <span className="text-[10px] font-mono text-slate-500 shrink-0">{chk.code}</span>
+              <span className="text-[10px] font-mono text-[#64748B] shrink-0">{chk.code}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Cryptographic Token Binding Specification Box */}
-      <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs font-mono">
-        <div className="flex items-center gap-2 text-indigo-400 font-semibold">
+      <div className="p-4 rounded-xl bg-[#EFF6FF] border border-blue-200 space-y-2 text-xs">
+        <div className="flex items-center gap-2 text-[#2563EB] font-bold">
           <KeyRound className="w-4 h-4" />
           <span>CRYPTOGRAPHIC AUTHORIZATION SPECIFICATION</span>
         </div>
-        <p className="text-slate-400 text-[11px]">
+        <p className="text-[#64748B] text-[11px]">
           Upon authorization, the backend signs an immutable payload containing:
           <br />
-          <code className="text-slate-300 mt-1 block bg-slate-900 p-2 rounded border border-slate-800 break-all select-all">
+          <code className="font-mono text-[#172554] mt-1.5 block bg-white p-2.5 rounded-lg border border-blue-200 break-all select-all">
             HMAC_SHA256( JTI={transaction?.id || 'tx_id'} · CUSTOMER={customer.id} · BRANCH={branch.id} · AMOUNT={amount} · ISSUED={Date.now()} · EXP=180s )
           </code>
         </p>
       </div>
 
       {/* Navigation & Action Footer */}
-      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-slate-800">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-[#E2E8F0]">
         <button
           type="button"
           onClick={onBack}
-          className="min-h-[44px] px-4 py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors rounded-lg border border-slate-800 sm:border-transparent flex items-center justify-center"
+          className="min-h-[44px] px-4 py-2.5 text-xs font-medium text-[#64748B] hover:text-[#172554] transition-colors rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 flex items-center justify-center cursor-pointer"
         >
           ← Back to Home-Branch Check
         </button>
@@ -269,7 +269,7 @@ export const Step4TransactionSecurity: React.FC<Step4Props> = ({
           type="button"
           onClick={handleAuthorize}
           disabled={!allPassed || authorizing || !transaction}
-          className="min-h-[44px] flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-semibold text-xs transition-colors shadow-sm w-full sm:w-auto"
+          className="min-h-[44px] flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold text-xs transition-colors shadow-xs w-full sm:w-auto cursor-pointer disabled:cursor-not-allowed"
         >
           <Lock className="w-3.5 h-3.5" />
           <span>

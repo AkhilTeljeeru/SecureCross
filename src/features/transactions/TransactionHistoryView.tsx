@@ -71,17 +71,17 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-4 sm:space-y-6">
       {/* Title & Filter Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
-            <span>TRANSACTION LEDGER</span>
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB] uppercase tracking-wide">
+            <span>Transaction Ledger</span>
             <span>·</span>
             <span>
-              RBAC SCOPE:{' '}
-              {operator?.role === 'OPERATOR' ? 'LOCAL BRANCH ONLY' : 'ALL BRANCHES (ELEVATED)'}
+              RBAC Scope:{' '}
+              {operator?.role === 'OPERATOR' ? 'Local Branch Only' : 'All Branches (Elevated)'}
             </span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#172554] mt-1">
             Cross-Branch Withdrawal Transaction History
           </h1>
         </div>
@@ -89,26 +89,26 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
         <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
           {/* Search box */}
           <div className="relative w-full sm:w-64">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
             <input
               type="text"
               placeholder="Search reference, customer..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-900 border border-slate-800 rounded-md text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
+              className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-[#E2E8F0] rounded-lg text-[#172554] placeholder-[#64748B] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/15 shadow-2xs"
             />
           </div>
 
           {/* Status Filter Tabs (Segmented control) */}
-          <div className="flex items-center gap-1 p-1 bg-slate-900 rounded-lg border border-slate-800 text-xs overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1 p-1 bg-white rounded-lg border border-[#E2E8F0] shadow-2xs text-xs overflow-x-auto no-scrollbar">
             {['ALL', 'REDEEMED', 'AUTHORIZED', 'REJECTED'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
-                className={`min-h-[34px] px-2.5 py-1 rounded font-mono text-[11px] transition-colors cursor-pointer shrink-0 ${
+                className={`min-h-[34px] px-2.5 py-1 rounded-md font-semibold text-[11px] transition-colors cursor-pointer shrink-0 ${
                   statusFilter === st
-                    ? 'bg-slate-800 text-white font-semibold'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#2563EB] text-white'
+                    : 'text-[#64748B] hover:text-[#172554] hover:bg-slate-50'
                 }`}
               >
                 {st}
@@ -119,67 +119,67 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
       </div>
 
       {/* Main Transactions View */}
-      <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+      <div className="rounded-xl bg-white border border-[#E2E8F0] shadow-xs overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-xs text-slate-500 font-mono">
+          <div className="p-8 text-center text-xs text-[#64748B]">
             Loading transaction ledger...
           </div>
         ) : filtered.length === 0 ? (
           <div className="p-12 text-center space-y-2">
-            <Clock className="w-8 h-8 text-slate-600 mx-auto" />
-            <p className="text-sm text-slate-300 font-medium">No transactions match your criteria</p>
-            <p className="text-xs text-slate-500">
+            <Clock className="w-8 h-8 text-slate-400 mx-auto" />
+            <p className="text-sm text-[#172554] font-semibold">No transactions match your criteria</p>
+            <p className="text-xs text-[#64748B]">
               Try adjusting your search query or status filter.
             </p>
           </div>
         ) : (
           <>
             {/* Mobile Card List (< md) */}
-            <div className="md:hidden divide-y divide-slate-800">
+            <div className="md:hidden divide-y divide-[#E2E8F0]">
               {filtered.map((tx) => (
                 <div
                   key={tx.id}
                   onClick={() => setSelectedTx(tx)}
-                  className="p-4 space-y-2.5 hover:bg-slate-800/40 transition-colors cursor-pointer"
+                  className="p-4 space-y-2.5 hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-bold text-white text-xs">
+                    <span className="font-mono font-bold text-[#172554] text-xs">
                       {tx.transaction_reference}
                     </span>
                     <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase font-bold ${
+                      className={`text-[10px] px-2 py-0.5 rounded border uppercase font-bold ${
                         tx.status === 'REDEEMED'
-                          ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
+                          ? 'bg-green-50 border-green-200 text-[#16A34A]'
                           : tx.status === 'AUTHORIZED'
-                          ? 'bg-amber-950/60 border-amber-800 text-amber-400'
+                          ? 'bg-amber-50 border-amber-200 text-[#D97706]'
                           : tx.status === 'REJECTED'
-                          ? 'bg-rose-950/60 border-rose-800 text-rose-400'
-                          : 'bg-slate-800 border-slate-700 text-slate-300'
+                          ? 'bg-red-50 border-red-200 text-[#DC2626]'
+                          : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#64748B]'
                       }`}
                     >
                       {tx.status}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between font-mono text-xs">
-                    <span className="text-slate-400">Amount:</span>
-                    <span className="text-base font-bold text-emerald-400 tabular-nums">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-[#64748B]">Amount:</span>
+                    <span className="text-base font-bold font-mono text-[#16A34A] tabular-nums">
                       ₹{tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
 
-                  <div className="text-[11px] font-mono text-slate-400 space-y-0.5 pt-1 border-t border-slate-800/60">
+                  <div className="text-[11px] text-[#64748B] space-y-1 pt-1.5 border-t border-[#E2E8F0]">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Customer:</span>
-                      <span className="text-slate-300 truncate max-w-[180px]">{tx.customer_id}</span>
+                      <span>Customer:</span>
+                      <span className="text-[#172554] font-mono truncate max-w-[180px]">{tx.customer_id}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Visiting Branch:</span>
-                      <span className="text-slate-300 truncate max-w-[180px]">{getBranchName(tx.branch_id)}</span>
+                      <span>Visiting Branch:</span>
+                      <span className="text-[#172554] truncate max-w-[180px]">{getBranchName(tx.branch_id)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Timestamp:</span>
-                      <span>{new Date(tx.created_at).toLocaleTimeString()}</span>
+                      <span>Timestamp:</span>
+                      <span className="font-mono">{new Date(tx.created_at).toLocaleTimeString()}</span>
                     </div>
                   </div>
 
@@ -189,9 +189,9 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
                       e.stopPropagation();
                       setSelectedTx(tx);
                     }}
-                    className="w-full min-h-[44px] mt-1 py-2 px-3 rounded-lg bg-slate-950 border border-slate-800 text-indigo-400 font-mono text-xs flex items-center justify-center font-medium"
+                    className="w-full min-h-[44px] mt-1 py-2 px-3 rounded-lg bg-[#EFF6FF] hover:bg-blue-100 border border-blue-200 text-[#2563EB] text-xs flex items-center justify-center font-semibold transition-colors"
                   >
-                    View Details & Audit Trace →
+                    View Details &amp; Audit Trace →
                   </button>
                 </div>
               ))}
@@ -200,52 +200,52 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
             {/* Desktop Table View (>= md) */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-950/60 border-b border-slate-800 text-slate-400 font-mono text-[11px]">
+                <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] text-[11px] uppercase tracking-wider">
                   <tr>
-                    <th className="py-3 px-4 font-semibold">REFERENCE</th>
-                    <th className="py-3 px-4 font-semibold">CUSTOMER</th>
-                    <th className="py-3 px-4 font-semibold">VISITING BRANCH</th>
-                    <th className="py-3 px-4 font-semibold text-right">AMOUNT (INR)</th>
-                    <th className="py-3 px-4 font-semibold">STATUS</th>
-                    <th className="py-3 px-4 font-semibold">TIMESTAMP</th>
-                    <th className="py-3 px-4 font-semibold text-right">ACTIONS</th>
+                    <th className="py-3 px-4 font-semibold">Reference</th>
+                    <th className="py-3 px-4 font-semibold">Customer</th>
+                    <th className="py-3 px-4 font-semibold">Visiting Branch</th>
+                    <th className="py-3 px-4 font-semibold text-right">Amount (INR)</th>
+                    <th className="py-3 px-4 font-semibold">Status</th>
+                    <th className="py-3 px-4 font-semibold">Timestamp</th>
+                    <th className="py-3 px-4 font-semibold text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 font-mono">
+                <tbody className="divide-y divide-[#E2E8F0]">
                   {filtered.map((tx) => (
                     <tr
                       key={tx.id}
-                      className="hover:bg-slate-800/50 transition-colors cursor-pointer"
+                      className="hover:bg-slate-50 transition-colors cursor-pointer"
                       onClick={() => setSelectedTx(tx)}
                     >
-                      <td className="py-3 px-4 font-bold text-white whitespace-nowrap">
+                      <td className="py-3 px-4 font-mono font-bold text-[#172554] whitespace-nowrap">
                         {tx.transaction_reference}
                       </td>
-                      <td className="py-3 px-4 text-slate-300 whitespace-nowrap">
+                      <td className="py-3 px-4 font-mono text-[#172554] whitespace-nowrap">
                         {tx.customer_id}
                       </td>
-                      <td className="py-3 px-4 text-slate-400 whitespace-nowrap">
+                      <td className="py-3 px-4 text-[#64748B] whitespace-nowrap">
                         {getBranchName(tx.branch_id)}
                       </td>
-                      <td className="py-3 px-4 text-right font-bold text-white tabular-nums whitespace-nowrap">
+                      <td className="py-3 px-4 text-right font-mono font-bold text-[#172554] tabular-nums whitespace-nowrap">
                         ₹{tx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                       </td>
                       <td className="py-3 px-4 whitespace-nowrap">
                         <span
                           className={`text-[10px] px-2 py-0.5 rounded border uppercase font-bold ${
                             tx.status === 'REDEEMED'
-                              ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
+                              ? 'bg-green-50 border-green-200 text-[#16A34A]'
                               : tx.status === 'AUTHORIZED'
-                              ? 'bg-amber-950/60 border-amber-800 text-amber-400'
+                              ? 'bg-amber-50 border-amber-200 text-[#D97706]'
                               : tx.status === 'REJECTED'
-                              ? 'bg-rose-950/60 border-rose-800 text-rose-400'
-                              : 'bg-slate-800 border-slate-700 text-slate-300'
+                              ? 'bg-red-50 border-red-200 text-[#DC2626]'
+                              : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#64748B]'
                           }`}
                         >
                           {tx.status}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-slate-400 whitespace-nowrap text-[11px]">
+                      <td className="py-3 px-4 text-[#64748B] font-mono whitespace-nowrap text-[11px]">
                         {new Date(tx.created_at).toLocaleString()}
                       </td>
                       <td className="py-3 px-4 text-right whitespace-nowrap">
@@ -254,7 +254,7 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
                             e.stopPropagation();
                             setSelectedTx(tx);
                           }}
-                          className="text-xs text-indigo-400 hover:text-indigo-300 font-medium underline"
+                          className="text-xs text-[#2563EB] hover:text-blue-700 font-semibold hover:underline cursor-pointer"
                         >
                           Details
                         </button>
@@ -270,63 +270,63 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
 
       {/* Transaction Detail Drawer / Modal */}
       {selectedTx && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-xl max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
               <div>
-                <span className="text-[10px] font-mono text-indigo-400 uppercase">
+                <span className="text-[11px] font-semibold text-[#2563EB] uppercase tracking-wider">
                   Transaction Metadata
                 </span>
-                <h3 className="text-base font-bold text-white font-mono">
+                <h3 className="text-base font-bold text-[#172554] font-mono">
                   {selectedTx.transaction_reference}
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedTx(null)}
-                className="text-slate-400 hover:text-slate-200 p-1 cursor-pointer"
+                className="text-[#64748B] hover:text-[#172554] p-1 rounded-lg hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-2 text-xs font-mono">
-              <div className="flex justify-between p-2 rounded bg-slate-950">
-                <span className="text-slate-400">Transaction ID:</span>
-                <span className="text-slate-200">{selectedTx.id}</span>
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between p-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+                <span className="text-[#64748B]">Transaction ID:</span>
+                <span className="text-[#172554] font-mono font-medium">{selectedTx.id}</span>
               </div>
-              <div className="flex justify-between p-2 rounded bg-slate-950">
-                <span className="text-slate-400">Customer ID:</span>
-                <span className="text-slate-200">{selectedTx.customer_id}</span>
+              <div className="flex justify-between p-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+                <span className="text-[#64748B]">Customer ID:</span>
+                <span className="text-[#172554] font-mono font-medium">{selectedTx.customer_id}</span>
               </div>
-              <div className="flex justify-between p-2 rounded bg-slate-950">
-                <span className="text-slate-400">Visiting Branch:</span>
-                <span className="text-slate-200">{getBranchName(selectedTx.branch_id)}</span>
+              <div className="flex justify-between p-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+                <span className="text-[#64748B]">Visiting Branch:</span>
+                <span className="text-[#172554] font-medium">{getBranchName(selectedTx.branch_id)}</span>
               </div>
-              <div className="flex justify-between p-2 rounded bg-slate-950">
-                <span className="text-slate-400">Amount:</span>
-                <span className="text-emerald-400 font-bold tabular-nums">
+              <div className="flex justify-between p-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+                <span className="text-[#64748B]">Amount:</span>
+                <span className="text-[#16A34A] font-mono font-bold tabular-nums">
                   ₹{selectedTx.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>
               </div>
-              <div className="flex justify-between p-2 rounded bg-slate-950">
-                <span className="text-slate-400">Status:</span>
-                <span className="text-white font-bold">{selectedTx.status}</span>
+              <div className="flex justify-between p-2.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+                <span className="text-[#64748B]">Status:</span>
+                <span className="text-[#172554] font-bold">{selectedTx.status}</span>
               </div>
               {selectedTx.rejection_reason && (
-                <div className="p-2 rounded bg-rose-950/40 border border-rose-800/80 text-rose-300">
+                <div className="p-2.5 rounded-lg bg-red-50 border border-red-200 text-[#DC2626]">
                   <span className="block font-bold">Rejection Reason:</span>
                   <span>{selectedTx.rejection_reason}</span>
                 </div>
               )}
               {selectedTx.token_jti && (
-                <div className="p-2 rounded bg-slate-950 border border-slate-800 text-[11px]">
-                  <span className="text-slate-400 block">Single-Use Token JTI:</span>
-                  <span className="text-indigo-400 break-all">{selectedTx.token_jti}</span>
+                <div className="p-2.5 rounded-lg bg-[#EFF6FF] border border-blue-200 text-[11px]">
+                  <span className="text-[#64748B] font-semibold block mb-0.5">Single-Use Token JTI:</span>
+                  <span className="text-[#2563EB] font-mono break-all">{selectedTx.token_jti}</span>
                 </div>
               )}
             </div>
 
-            <div className="pt-3 border-t border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+            <div className="pt-3 border-t border-[#E2E8F0] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
               <button
                 type="button"
                 onClick={() => {
@@ -334,7 +334,7 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
                   setSelectedTx(null);
                   onViewAudit(txId);
                 }}
-                className="min-h-[44px] text-xs text-indigo-400 hover:text-indigo-300 flex items-center justify-center gap-1.5 font-medium px-3 py-2 rounded-lg border border-slate-800 sm:border-transparent cursor-pointer"
+                className="min-h-[44px] text-xs text-[#2563EB] hover:text-blue-700 bg-[#EFF6FF] hover:bg-blue-100 border border-blue-200 flex items-center justify-center gap-1.5 font-semibold px-3.5 py-2 rounded-lg transition-colors cursor-pointer"
               >
                 <FileText className="w-3.5 h-3.5" />
                 <span>View Security Audit Events</span>
@@ -343,7 +343,7 @@ export const TransactionHistoryView: React.FC<TransactionHistoryViewProps> = ({ 
               <button
                 type="button"
                 onClick={() => setSelectedTx(null)}
-                className="min-h-[44px] px-5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium cursor-pointer"
+                className="min-h-[44px] px-5 py-2 rounded-lg bg-[#F8FAFC] hover:bg-slate-100 border border-[#E2E8F0] text-[#172554] text-xs font-semibold transition-colors cursor-pointer"
               >
                 Close
               </button>

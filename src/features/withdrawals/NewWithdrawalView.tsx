@@ -41,14 +41,14 @@ export const NewWithdrawalView: React.FC<NewWithdrawalViewProps> = ({
   return (
     <div className="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-4 sm:space-y-6">
       {/* Visual Stepper Bar */}
-      <div className="p-3 sm:p-4 rounded-xl bg-slate-900 border border-slate-800">
+      <div className="p-3.5 sm:p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
         {/* Mobile Stepper: Compact step counter + segmented progress bar */}
         <div className="sm:hidden space-y-2">
-          <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-indigo-400 font-semibold">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-[#2563EB] font-semibold">
               STEP {step} OF 5: {stepLabels[step - 1].split('. ')[1]}
             </span>
-            <span className="text-slate-500 text-[11px]">
+            <span className="text-[#64748B] font-mono text-[11px]">
               {Math.round((step / 5) * 100)}% Complete
             </span>
           </div>
@@ -58,10 +58,10 @@ export const NewWithdrawalView: React.FC<NewWithdrawalViewProps> = ({
                 key={s}
                 className={`rounded-full transition-all ${
                   s < step
-                    ? 'bg-emerald-500'
+                    ? 'bg-[#16A34A]'
                     : s === step
-                    ? 'bg-indigo-500'
-                    : 'bg-slate-800'
+                    ? 'bg-[#2563EB]'
+                    : 'bg-slate-200'
                 }`}
               />
             ))}
@@ -78,21 +78,21 @@ export const NewWithdrawalView: React.FC<NewWithdrawalViewProps> = ({
             return (
               <div
                 key={label}
-                className={`py-2 px-3 rounded-lg text-xs font-mono transition-colors flex items-center gap-2 ${
+                className={`py-2 px-3 rounded-lg text-xs transition-colors flex items-center gap-2 ${
                   isCurrent
-                    ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/60 font-semibold'
+                    ? 'bg-[#EFF6FF] text-[#2563EB] border border-blue-200 font-semibold'
                     : isCompleted
-                    ? 'bg-slate-950 text-emerald-400 border border-slate-800'
-                    : 'bg-slate-950/40 text-slate-500 border border-transparent'
+                    ? 'bg-green-50 text-[#16A34A] border border-green-200 font-medium'
+                    : 'bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0]'
                 }`}
               >
                 <div
-                  className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 ${
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
                     isCurrent
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-[#2563EB] text-white'
                       : isCompleted
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-slate-800 text-slate-400'
+                      ? 'bg-[#16A34A] text-white'
+                      : 'bg-slate-200 text-[#64748B]'
                   }`}
                 >
                   {isCompleted ? '✓' : stepNum}

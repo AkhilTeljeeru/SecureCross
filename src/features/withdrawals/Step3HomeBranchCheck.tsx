@@ -66,51 +66,53 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-slate-800 pb-4">
-        <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB]">
           <span>STEP 3 OF 5</span>
-          <span>·</span>
+          <span className="text-slate-300">·</span>
           <span>REAL-TIME HOME-BRANCH IDENTITY CHECK</span>
         </div>
-        <h2 className="text-xl font-bold text-white mt-1">
+        <h2 className="text-xl font-bold text-[#172554] mt-1">
           Registered Home-Branch Authentication & Core Switch Check
         </h2>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-[#64748B] mt-1">
           Authoritative query to customer's registered home branch banking switch to verify KYC status, ledger account status, and cross-branch permissions.
         </p>
       </div>
 
       {/* Network & Service Path Diagram */}
-      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-400 flex items-center gap-1.5">
-            <Server className="w-3.5 h-3.5 text-indigo-400" />
+      <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+          <span className="text-[#172554] font-semibold flex items-center gap-1.5">
+            <Server className="w-3.5 h-3.5 text-[#2563EB]" />
             <span>INTER-BRANCH CORE SWITCH ROUTING</span>
           </span>
-          <span className="text-emerald-400">STATUS: MUTUAL TLS (mTLS) ENCRYPTED</span>
+          <span className="text-[#16A34A] font-semibold font-mono text-[11px]">
+            STATUS: MUTUAL TLS (mTLS) ENCRYPTED
+          </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
-          <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-            <span className="text-[10px] text-slate-500 font-mono block">REQUESTING TERMINAL</span>
-            <span className="font-bold text-white block mt-0.5">{branch.name}</span>
-            <span className="text-[11px] font-mono text-slate-400">Code: {branch.branch_code}</span>
+          <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+            <span className="text-[10px] font-semibold text-[#64748B] uppercase block">REQUESTING TERMINAL</span>
+            <span className="font-bold text-[#172554] block mt-0.5">{branch.name}</span>
+            <span className="text-[11px] font-mono text-[#64748B]">Code: {branch.branch_code}</span>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex flex-col justify-center items-center text-center">
-            <Zap className="w-4 h-4 text-amber-400 mb-1" />
-            <span className="text-[10px] text-slate-500 font-mono">SECURECROSS SWITCHWAY</span>
-            <span className="text-[11px] font-mono text-indigo-300">
+          <div className="p-3.5 rounded-lg bg-[#EFF6FF] border border-blue-200 flex flex-col justify-center items-center text-center">
+            <Zap className="w-4 h-4 text-[#D97706] mb-1" />
+            <span className="text-[10px] font-semibold text-[#64748B] uppercase">SECURECROSS SWITCHWAY</span>
+            <span className="text-[11px] font-mono font-semibold text-[#2563EB]">
               {loading ? 'Transmitting RPC packet...' : `Latency: ${response?.simulated_switch_latency_ms || 120}ms`}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-            <span className="text-[10px] text-slate-500 font-mono block">REGISTERED HOME BRANCH</span>
-            <span className="font-bold text-white block mt-0.5">
+          <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+            <span className="text-[10px] font-semibold text-[#64748B] uppercase block">REGISTERED HOME BRANCH</span>
+            <span className="font-bold text-[#172554] block mt-0.5">
               {response?.home_branch?.name || 'Registered Home Branch'}
             </span>
-            <span className="text-[11px] font-mono text-slate-400">
+            <span className="text-[11px] font-mono text-[#64748B]">
               Code: {response?.home_branch?.branch_code || customer.home_branch_id}
             </span>
           </div>
@@ -118,16 +120,16 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
       </div>
 
       {/* Fault Injection for Home Branch */}
-      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">
+      <div className="p-4 sm:p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-3">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2">
+          <span className="text-xs font-bold text-[#172554] uppercase tracking-wider">
             Fault Injection & Resilience Testing
           </span>
           <button
             type="button"
             onClick={executeHomeBranchQuery}
             disabled={loading}
-            className="flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-medium"
+            className="flex items-center gap-1.5 text-xs text-[#2563EB] hover:text-blue-700 font-semibold cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Re-query Switch</span>
@@ -135,7 +137,7 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <label className="flex items-center gap-2 p-2.5 rounded bg-slate-950 border border-slate-800 cursor-pointer hover:border-slate-700">
+          <label className="flex items-center gap-2.5 p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] cursor-pointer hover:border-blue-300 transition-colors">
             <input
               type="checkbox"
               checked={simulateTimeout}
@@ -143,19 +145,19 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
                 setSimulateTimeout(e.target.checked);
                 if (e.target.checked) setSimulateDown(false);
               }}
-              className="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0"
+              className="rounded border-slate-300 text-[#2563EB] focus:ring-[#2563EB]"
             />
             <div>
-              <span className="font-semibold text-slate-200 block">
+              <span className="font-semibold text-[#172554] block">
                 Simulate Gateway Timeout (Test 18)
               </span>
-              <span className="text-[10px] text-slate-500">
+              <span className="text-[11px] text-[#64748B]">
                 Remote switch fails to respond within timeout window (HTTP 504)
               </span>
             </div>
           </label>
 
-          <label className="flex items-center gap-2 p-2.5 rounded bg-slate-950 border border-slate-800 cursor-pointer hover:border-slate-700">
+          <label className="flex items-center gap-2.5 p-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] cursor-pointer hover:border-blue-300 transition-colors">
             <input
               type="checkbox"
               checked={simulateDown}
@@ -163,13 +165,13 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
                 setSimulateDown(e.target.checked);
                 if (e.target.checked) setSimulateTimeout(false);
               }}
-              className="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0"
+              className="rounded border-slate-300 text-[#2563EB] focus:ring-[#2563EB]"
             />
             <div>
-              <span className="font-semibold text-slate-200 block">
+              <span className="font-semibold text-[#172554] block">
                 Simulate Switch Offline (Fail-Closed)
               </span>
-              <span className="text-[10px] text-slate-500">
+              <span className="text-[11px] text-[#64748B]">
                 Core banking system offline triggers immediate fail-closed denial (HTTP 503)
               </span>
             </div>
@@ -179,56 +181,56 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
 
       {/* Query Outcome / Error Display */}
       {error && (
-        <div className="p-4 rounded-xl bg-rose-950/50 border border-rose-800 text-rose-300 text-xs space-y-2">
-          <div className="flex items-center gap-2 font-bold font-mono">
-            <XCircle className="w-4 h-4 text-rose-400" />
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-[#DC2626] text-xs space-y-2">
+          <div className="flex items-center gap-2 font-bold">
+            <XCircle className="w-4 h-4 text-[#DC2626]" />
             <span>HOME-BRANCH VERIFICATION FAILED (FAIL-CLOSED DEFENSE)</span>
           </div>
-          <p className="text-slate-300">{error}</p>
-          <p className="text-[11px] text-slate-400 font-mono">
+          <p className="text-[#172554] font-medium">{error}</p>
+          <p className="text-[11px] text-[#64748B]">
             Security policy: Zero cash may be disbursed when home branch authentication or status checks cannot be verified authoritatively.
           </p>
         </div>
       )}
 
       {response && !error && (
-        <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">
+        <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
+            <span className="text-xs font-bold text-[#172554] uppercase tracking-wider">
               Home-Branch Verification Payload
             </span>
             <span
-              className={`text-xs font-mono font-bold px-2 py-0.5 rounded border uppercase ${
+              className={`text-xs font-semibold px-2.5 py-0.5 rounded border uppercase ${
                 isEligible
-                  ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
-                  : 'bg-rose-950/60 border-rose-800 text-rose-400'
+                  ? 'bg-green-50 border-green-200 text-[#16A34A]'
+                  : 'bg-red-50 border-red-200 text-[#DC2626]'
               }`}
             >
               Account Status: {response.account_status}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
-            <div className="p-3 rounded bg-slate-950 border border-slate-800">
-              <span className="text-[10px] text-slate-500 block">AVAILABLE BALANCE</span>
-              <span className="text-lg font-bold text-emerald-400 block mt-1 tabular-nums">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+              <span className="text-[10px] font-semibold text-[#64748B] uppercase block">AVAILABLE BALANCE</span>
+              <span className="text-lg font-bold font-mono text-[#16A34A] block mt-1 tabular-nums">
                 ₹{response.available_balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
 
-            <div className="p-3 rounded bg-slate-950 border border-slate-800">
-              <span className="text-[10px] text-slate-500 block">REMAINING DAILY ALLOWANCE</span>
-              <span className="text-lg font-bold text-white block mt-1 tabular-nums">
+            <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+              <span className="text-[10px] font-semibold text-[#64748B] uppercase block">REMAINING DAILY ALLOWANCE</span>
+              <span className="text-lg font-bold font-mono text-[#172554] block mt-1 tabular-nums">
                 ₹{response.remaining_daily_allowance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
-              <span className="text-[10px] text-slate-500 block mt-0.5">Policy Max ₹50,000/day</span>
+              <span className="text-[11px] text-[#64748B] block mt-0.5">Policy Max ₹50,000/day</span>
             </div>
 
-            <div className="p-3 rounded bg-slate-950 border border-slate-800">
-              <span className="text-[10px] text-slate-500 block">CROSS-BRANCH WITHDRAWAL</span>
+            <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0]">
+              <span className="text-[10px] font-semibold text-[#64748B] uppercase block">CROSS-BRANCH WITHDRAWAL</span>
               <span
                 className={`text-sm font-bold block mt-1.5 uppercase ${
-                  isEligible ? 'text-emerald-400' : 'text-rose-400'
+                  isEligible ? 'text-[#16A34A]' : 'text-[#DC2626]'
                 }`}
               >
                 {isEligible ? 'PERMITTED' : 'DENIED / BLOCKED'}
@@ -239,14 +241,14 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
           <div
             className={`p-3.5 rounded-lg border flex items-center gap-3 text-xs ${
               isEligible
-                ? 'bg-emerald-950/30 border-emerald-800 text-emerald-300'
-                : 'bg-rose-950/30 border-rose-800 text-rose-300'
+                ? 'bg-green-50 border-green-200 text-[#16A34A]'
+                : 'bg-red-50 border-red-200 text-[#DC2626]'
             }`}
           >
             {isEligible ? (
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-[#16A34A] shrink-0" />
             ) : (
-              <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0" />
+              <AlertTriangle className="w-5 h-5 text-[#DC2626] shrink-0" />
             )}
             <div>
               <p className="font-bold">
@@ -254,7 +256,7 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
                   ? 'Home branch verified identity and approved cross-branch authorization.'
                   : 'Customer account is inactive, frozen or ineligible for withdrawal.'}
               </p>
-              <p className="text-[11px] opacity-90 mt-0.5">
+              <p className="text-[11px] text-[#172554]/80 mt-0.5">
                 {isEligible
                   ? `Customer standing verified with ${response.home_branch?.name}. Proceed to final transaction security controls.`
                   : 'Account cannot be debited in this state under anti-fraud banking rules.'}
@@ -265,11 +267,11 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
       )}
 
       {/* Navigation Footer */}
-      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-slate-800">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-[#E2E8F0]">
         <button
           type="button"
           onClick={onBack}
-          className="min-h-[44px] px-4 py-2.5 text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors rounded-lg border border-slate-800 sm:border-transparent flex items-center justify-center"
+          className="min-h-[44px] px-4 py-2.5 text-xs font-medium text-[#64748B] hover:text-[#172554] transition-colors rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50 flex items-center justify-center cursor-pointer"
         >
           ← Back to Biometric Verification
         </button>
@@ -282,7 +284,7 @@ export const Step3HomeBranchCheck: React.FC<Step3Props> = ({
             }
           }}
           disabled={!response || !isEligible || loading}
-          className="min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-medium text-xs transition-colors shadow-sm w-full sm:w-auto"
+          className="min-h-[44px] flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold text-xs transition-colors shadow-xs w-full sm:w-auto cursor-pointer disabled:cursor-not-allowed"
         >
           <span>Proceed to Transaction Security Checks</span>
           <ArrowRight className="w-4 h-4" />

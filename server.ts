@@ -2,11 +2,33 @@ import express, { Request, Response, NextFunction } from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import crypto from 'crypto';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function resolvePort(): number {
+  const portArgIndex = process.argv.indexOf('--port');
+  if (portArgIndex !== -1 && process.argv[portArgIndex + 1]) {
+    const parsed = parseInt(process.argv[portArgIndex + 1], 10);
+    if (!isNaN(parsed) && parsed > 0) return parsed;
+  }
+  if (process.env.APP_PORT) {
+    const parsed = parseInt(process.env.APP_PORT, 10);
+    if (!isNaN(parsed) && parsed > 0) return parsed;
+  }
+  if (process.env.DEFAULT_APP_PORT) {
+    const parsed = parseInt(process.env.DEFAULT_APP_PORT, 10);
+    if (!isNaN(parsed) && parsed > 0) return parsed;
+  }
+  return 3000;
+}
 
 const app = express();
-const PORT = 3000;
+const PORT = resolvePort();
 
 app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // -------------------------------------------------------------
 // Cryptographic Secret & Constants
@@ -2836,22 +2858,51 @@ app.post('/api/v1/admin/reset-data', (req: Request, res: Response) => {
 // Vite Dev Server / Static Hosting Integration
 // -------------------------------------------------------------
 async function startServer() {
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
-    app.get('*', (req: Request, res: Response) => {
-      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-    });
-  } else {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  }
+  try {
+    if (process.env.NODE_ENV === 'production') {
+      const distPath = path.resolve(__dirname, 'dist');
+      app.use(express.static(distPath));
+      app.get('*', (req: Request, res: Response) => {
+        res.sendFile(path.resolve(distPath, 'index.html'));
+      });
+    } else {
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: 'spa',
+      });
+      app.use(vite.middlewares);
+    }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`SecureCross full-stack server running on http://0.0.0.0:${PORT}`);
-  });
+    // Express unhandled error handler middleware
+    app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+      console.error('Express request error:', err);
+      if (res.headersSent) {
+        return next(err);
+      }
+      res.status(500).json({ error: err?.message || 'Internal Server Error' });
+    });
+
+    const server = app.listen(PORT, '0.0.0.0', () => {
+      console.log(`SecureCross full-stack server running on http://0.0.0.0:${PORT} (PID: ${process.pid})`);
+    });
+
+    const shutdown = () => {
+      console.log('Shutting down server...');
+      server.close(() => {
+        console.log('Server successfully closed.');
+        process.exit(0);
+      });
+    };
+
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
+  } catch (error) {
+    console.error('Fatal failure starting SecureCross server:', error);
+    process.exit(1);
+  }
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error('Unhandled server startup exception:', err);
+  process.exit(1);
+});

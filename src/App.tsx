@@ -17,9 +17,9 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center space-y-3">
-        <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-        <span className="text-xs font-mono text-slate-400">Initializing SecureCross V2.2 Engine...</span>
+      <div className="min-h-screen bg-[#F5F7FB] flex flex-col items-center justify-center space-y-3">
+        <div className="w-8 h-8 border-2 border-[#2563EB] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-medium text-[#64748B]">Initializing SecureCross Engine...</span>
       </div>
     );
   }
@@ -30,7 +30,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#F5F7FB] text-[#172554] flex flex-col font-sans selection:bg-[#EFF6FF] selection:text-[#2563EB]">
       <Header
         currentView={currentView}
         onNavigate={(view) => {
@@ -80,10 +80,10 @@ function AppContent() {
         {currentView === 'docs' && <DocsView />}
       </main>
 
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-4 px-6 text-center text-xs text-slate-500 font-mono">
+      <footer className="border-t border-[#E2E8F0] bg-white py-4 px-6 text-center text-xs text-[#64748B]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>SecureCross V2.0 Academic Banking Prototype · Cardless Cross-Branch Authorization</span>
-          <span>Zero Real Financial Connections · Synthetic Data Model</span>
+          <span className="font-medium text-[#64748B]">Zero Real Financial Connections · Synthetic Data Model</span>
         </div>
       </footer>
     </div>

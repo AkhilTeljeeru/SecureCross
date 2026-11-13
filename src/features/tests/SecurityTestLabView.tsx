@@ -112,17 +112,17 @@ export const SecurityTestLabView: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-4 sm:space-y-6">
       {/* Title & Execution Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono text-indigo-400">
-            <span>AUTOMATED EVALUATION SUITE</span>
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#2563EB] uppercase tracking-wide">
+            <span>Automated Evaluation Suite</span>
             <span>·</span>
-            <span>SECURECROSS V2.5 SPECIFICATION</span>
+            <span>SecureCross V2.5 Specification</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-1">
-            Face Verification & Security Attack Harness
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#172554] mt-1">
+            Face Verification &amp; Security Attack Harness
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#64748B] mt-1">
             Authoritative evaluation of live facial feature matching, anti-spoofing PAD, camera lifecycle, privacy isolation, and anti-replay token binding.
           </p>
         </div>
@@ -131,85 +131,93 @@ export const SecurityTestLabView: React.FC = () => {
           <button
             onClick={runAllTests}
             disabled={running}
-            className="w-full sm:w-auto min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 text-white font-medium text-xs font-mono transition-colors shadow-sm cursor-pointer"
+            className="w-full sm:w-auto min-h-[44px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold text-xs sm:text-sm transition-colors shadow-xs cursor-pointer"
           >
-            <Play className={`w-3.5 h-3.5 ${running ? 'animate-spin' : ''}`} />
+            <Play className={`w-4 h-4 ${running ? 'animate-spin' : ''}`} />
             <span>{running ? 'Executing Tests...' : 'Re-Run All Tests'}</span>
           </button>
         </div>
       </div>
 
       {/* Prominent Prototype Simulation Notice */}
-      <div className="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-800/80 text-indigo-200 text-xs flex items-start gap-3">
-        <Info className="w-4 h-4 shrink-0 mt-0.5 text-indigo-400" />
+      <div className="p-4 rounded-xl bg-[#EFF6FF] border border-blue-200 text-[#172554] text-xs flex items-start gap-3">
+        <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#2563EB]" />
         <div className="space-y-0.5">
-          <span className="font-mono font-bold text-indigo-300 block">
-            Academic Simulation Notice (Requirement 6 & 16)
+          <span className="font-bold text-[#172554] block">
+            Academic Simulation Notice (Requirement 6 &amp; 16)
           </span>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            All biometrics operate under <strong className="text-indigo-300">Simulation Mode / Mock Hardware Adapter V2</strong>. InsightFace/ArcFace and PAD anti-spoofing models evaluate simulated vectors and live camera frame landmarks without storing raw images.
+          <p className="text-[#64748B] text-xs leading-relaxed">
+            All biometrics operate under <strong className="text-[#2563EB]">Simulation Mode / Mock Hardware Adapter V2</strong>. InsightFace/ArcFace and PAD anti-spoofing models evaluate simulated vectors and live camera frame landmarks without storing raw images.
           </p>
         </div>
       </div>
 
       {/* KPI Stats Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] text-slate-500 font-mono block">V2.7 CAMERA & FACE SUITE</span>
-          <span className="text-3xl font-bold text-white font-mono mt-1 block tabular-nums">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
+          <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
+            V2.7 Camera &amp; Face Suite
+          </span>
+          <span className="text-3xl font-bold text-[#172554] font-mono mt-1.5 block tabular-nums">
             19
           </span>
-          <span className="text-[11px] text-slate-400 font-mono mt-0.5 block">
-            Camera Preview & PAD Verification
+          <span className="text-xs text-[#64748B] mt-1 block">
+            Camera Preview &amp; PAD Verification
           </span>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] text-slate-500 font-mono block">V2.7 TESTS PASSED</span>
-          <span className="text-3xl font-bold text-emerald-400 font-mono mt-1 block tabular-nums">
+        <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
+          <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
+            V2.7 Tests Passed
+          </span>
+          <span className="text-3xl font-bold text-[#16A34A] font-mono mt-1.5 block tabular-nums">
             {v27Passed} / 19
           </span>
-          <span className="text-[11px] text-emerald-500/80 font-mono mt-0.5 block">
+          <span className="text-xs text-[#16A34A] font-medium mt-1 block">
             {((v27Passed / 19) * 100).toFixed(0)}% passing rate (100% compliant)
           </span>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] text-slate-500 font-mono block">V2.5 SPECIFICATION TESTS</span>
-          <span className="text-3xl font-bold text-indigo-400 font-mono mt-1 block tabular-nums">
+        <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
+          <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
+            V2.5 Specification Tests
+          </span>
+          <span className="text-3xl font-bold text-[#2563EB] font-mono mt-1.5 block tabular-nums">
             {v25Passed} / 16
           </span>
-          <span className="text-[11px] text-slate-400 font-mono mt-0.5 block">
-            Core Facial & Biometrics
+          <span className="text-xs text-[#64748B] mt-1 block">
+            Core Facial &amp; Biometrics
           </span>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <span className="text-[10px] text-slate-500 font-mono block">MASTER SECURITY SUITE</span>
-          <span className="text-3xl font-bold text-indigo-400 font-mono mt-1 block tabular-nums">
+        <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
+          <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
+            Master Security Suite
+          </span>
+          <span className="text-3xl font-bold text-[#2563EB] font-mono mt-1.5 block tabular-nums">
             {masterPassed} / 34
           </span>
-          <span className="text-[11px] text-slate-400 font-mono mt-0.5 block">
-            Platform Security & Anti-Replay
+          <span className="text-xs text-[#64748B] mt-1 block">
+            Platform Security &amp; Anti-Replay
           </span>
         </div>
       </div>
 
       {/* Tabs Selector */}
-      <div className="flex border-b border-slate-800 gap-2 overflow-x-auto no-scrollbar">
+      <div className="flex border-b border-[#E2E8F0] gap-2 overflow-x-auto no-scrollbar">
         <button
           type="button"
           onClick={() => setActiveTab('v27_camera')}
-          className={`min-h-[40px] py-2 px-4 text-xs font-mono font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
+          className={`min-h-[42px] py-2 px-4 text-xs font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
             activeTab === 'v27_camera'
-              ? 'bg-slate-900 border-slate-700 text-white'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'bg-white border-[#E2E8F0] text-[#172554] shadow-2xs'
+              : 'border-transparent text-[#64748B] hover:text-[#172554]'
           }`}
         >
           <div className="flex items-center gap-2">
-            <Camera className="w-3.5 h-3.5 text-indigo-400" />
-            <span>V2.7 Camera & Face Suite (19 Tests)</span>
-            <span className="px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-400 text-[10px]">
+            <Camera className={`w-4 h-4 ${activeTab === 'v27_camera' ? 'text-[#2563EB]' : 'text-[#64748B]'}`} />
+            <span>V2.7 Camera &amp; Face Suite (19 Tests)</span>
+            <span className="px-2 py-0.5 rounded bg-green-50 text-[#16A34A] border border-green-200 text-[10px] font-mono font-bold">
               {v27Passed}/19
             </span>
           </div>
@@ -218,16 +226,16 @@ export const SecurityTestLabView: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('v25_face')}
-          className={`min-h-[40px] py-2 px-4 text-xs font-mono font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
+          className={`min-h-[42px] py-2 px-4 text-xs font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
             activeTab === 'v25_face'
-              ? 'bg-slate-900 border-slate-700 text-white'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'bg-white border-[#E2E8F0] text-[#172554] shadow-2xs'
+              : 'border-transparent text-[#64748B] hover:text-[#172554]'
           }`}
         >
           <div className="flex items-center gap-2">
-            <ScanFace className="w-3.5 h-3.5 text-indigo-400" />
+            <ScanFace className={`w-4 h-4 ${activeTab === 'v25_face' ? 'text-[#2563EB]' : 'text-[#64748B]'}`} />
             <span>V2.5 Face Verification Suite (16 Tests)</span>
-            <span className="px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-400 text-[10px]">
+            <span className="px-2 py-0.5 rounded bg-green-50 text-[#16A34A] border border-green-200 text-[10px] font-mono font-bold">
               {v25Passed}/16
             </span>
           </div>
@@ -236,16 +244,16 @@ export const SecurityTestLabView: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('master_34')}
-          className={`min-h-[40px] py-2 px-4 text-xs font-mono font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
+          className={`min-h-[42px] py-2 px-4 text-xs font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
             activeTab === 'master_34'
-              ? 'bg-slate-900 border-slate-700 text-white'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'bg-white border-[#E2E8F0] text-[#172554] shadow-2xs'
+              : 'border-transparent text-[#64748B] hover:text-[#172554]'
           }`}
         >
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
+            <ShieldCheck className={`w-4 h-4 ${activeTab === 'master_34' ? 'text-[#2563EB]' : 'text-[#64748B]'}`} />
             <span>Master Platform Security Suite (34 Tests)</span>
-            <span className="px-1.5 py-0.2 rounded bg-indigo-950/80 text-indigo-400 text-[10px]">
+            <span className="px-2 py-0.5 rounded bg-[#EFF6FF] text-[#2563EB] border border-blue-200 text-[10px] font-mono font-bold">
               {masterPassed}/34
             </span>
           </div>
@@ -254,16 +262,16 @@ export const SecurityTestLabView: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('v26_responsive')}
-          className={`min-h-[40px] py-2 px-4 text-xs font-mono font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
+          className={`min-h-[42px] py-2 px-4 text-xs font-semibold rounded-t-lg transition-colors border-t border-x cursor-pointer shrink-0 ${
             activeTab === 'v26_responsive'
-              ? 'bg-slate-900 border-slate-700 text-white'
-              : 'border-transparent text-slate-400 hover:text-slate-200'
+              ? 'bg-white border-[#E2E8F0] text-[#172554] shadow-2xs'
+              : 'border-transparent text-[#64748B] hover:text-[#172554]'
           }`}
         >
           <div className="flex items-center gap-2">
-            <Smartphone className="w-3.5 h-3.5 text-indigo-400" />
-            <span>V2.6 Adaptive UI & Viewports (12 Checks)</span>
-            <span className="px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-400 text-[10px]">
+            <Smartphone className={`w-4 h-4 ${activeTab === 'v26_responsive' ? 'text-[#2563EB]' : 'text-[#64748B]'}`} />
+            <span>V2.6 Adaptive UI &amp; Viewports (12 Checks)</span>
+            <span className="px-2 py-0.5 rounded bg-green-50 text-[#16A34A] border border-green-200 text-[10px] font-mono font-bold">
               {v26Results.length}/12
             </span>
           </div>
@@ -272,31 +280,31 @@ export const SecurityTestLabView: React.FC = () => {
 
       {/* Tab 0: V2.7 19-Test Suite Table */}
       {activeTab === 'v27_camera' && (
-        <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+        <div className="rounded-xl bg-white border border-[#E2E8F0] shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-slate-950/70 border-b border-slate-800 text-slate-400 text-[11px]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] text-[11px] uppercase tracking-wider">
                 <tr>
-                  <th className="py-3 px-4 font-semibold">TEST #</th>
-                  <th className="py-3 px-4 font-semibold">REQUIREMENT NAME</th>
-                  <th className="py-3 px-4 font-semibold">CATEGORY</th>
-                  <th className="py-3 px-4 font-semibold">STATUS</th>
-                  <th className="py-3 px-4 font-semibold">EXPECTED BEHAVIOR</th>
-                  <th className="py-3 px-4 font-semibold">ACTUAL VERIFIED RESULT</th>
-                  <th className="py-3 px-4 font-semibold">EVIDENCE NOTE</th>
+                  <th className="py-3 px-4 font-semibold">Test #</th>
+                  <th className="py-3 px-4 font-semibold">Requirement Name</th>
+                  <th className="py-3 px-4 font-semibold">Category</th>
+                  <th className="py-3 px-4 font-semibold">Status</th>
+                  <th className="py-3 px-4 font-semibold">Expected Behavior</th>
+                  <th className="py-3 px-4 font-semibold">Actual Verified Result</th>
+                  <th className="py-3 px-4 font-semibold">Evidence Note</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-[#E2E8F0]">
                 {v27Results.map((t) => (
-                  <tr key={t.num} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-4 font-bold text-indigo-400 whitespace-nowrap">
+                  <tr key={t.num} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-mono font-bold text-[#2563EB] whitespace-nowrap">
                       #{t.num.toString().padStart(2, '0')}
                     </td>
-                    <td className="py-3 px-4 text-white font-semibold whitespace-nowrap">
+                    <td className="py-3 px-4 text-[#172554] font-semibold whitespace-nowrap">
                       {t.name}
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] font-mono font-medium">
                         {t.category}
                       </span>
                     </td>
@@ -304,17 +312,17 @@ export const SecurityTestLabView: React.FC = () => {
                       <span
                         className={`text-[10px] px-2 py-0.5 rounded border uppercase font-bold inline-flex items-center gap-1 ${
                           t.passed
-                            ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
-                            : 'bg-rose-950/60 border-rose-800 text-rose-400'
+                            ? 'bg-green-50 border-green-200 text-[#16A34A]'
+                            : 'bg-red-50 border-red-200 text-[#DC2626]'
                         }`}
                       >
                         {t.passed ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
                         <span>{t.passed ? 'PASSED' : 'FAILED'}</span>
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-300 max-w-xs">{t.expected}</td>
-                    <td className="py-3 px-4 text-emerald-300 max-w-xs">{t.actual}</td>
-                    <td className="py-3 px-4 text-slate-400 text-[11px] max-w-xs truncate">
+                    <td className="py-3 px-4 text-[#64748B] max-w-xs">{t.expected}</td>
+                    <td className="py-3 px-4 text-[#16A34A] font-medium max-w-xs">{t.actual}</td>
+                    <td className="py-3 px-4 text-[#64748B] text-[11px] font-mono max-w-xs truncate">
                       {t.notes}
                     </td>
                   </tr>
@@ -327,31 +335,31 @@ export const SecurityTestLabView: React.FC = () => {
 
       {/* Tab 1: V2.5 16-Test Suite Table */}
       {activeTab === 'v25_face' && (
-        <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+        <div className="rounded-xl bg-white border border-[#E2E8F0] shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-slate-950/70 border-b border-slate-800 text-slate-400 text-[11px]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] text-[11px] uppercase tracking-wider">
                 <tr>
-                  <th className="py-3 px-4 font-semibold">TEST #</th>
-                  <th className="py-3 px-4 font-semibold">REQUIREMENT NAME</th>
-                  <th className="py-3 px-4 font-semibold">CATEGORY</th>
-                  <th className="py-3 px-4 font-semibold">STATUS</th>
-                  <th className="py-3 px-4 font-semibold">EXPECTED BEHAVIOR</th>
-                  <th className="py-3 px-4 font-semibold">ACTUAL VERIFIED RESULT</th>
-                  <th className="py-3 px-4 font-semibold">EVIDENCE NOTE</th>
+                  <th className="py-3 px-4 font-semibold">Test #</th>
+                  <th className="py-3 px-4 font-semibold">Requirement Name</th>
+                  <th className="py-3 px-4 font-semibold">Category</th>
+                  <th className="py-3 px-4 font-semibold">Status</th>
+                  <th className="py-3 px-4 font-semibold">Expected Behavior</th>
+                  <th className="py-3 px-4 font-semibold">Actual Verified Result</th>
+                  <th className="py-3 px-4 font-semibold">Evidence Note</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-[#E2E8F0]">
                 {v25Results.map((t) => (
-                  <tr key={t.num} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-4 font-bold text-indigo-400 whitespace-nowrap">
+                  <tr key={t.num} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-mono font-bold text-[#2563EB] whitespace-nowrap">
                       #{t.num.toString().padStart(2, '0')}
                     </td>
-                    <td className="py-3 px-4 text-white font-semibold whitespace-nowrap">
+                    <td className="py-3 px-4 text-[#172554] font-semibold whitespace-nowrap">
                       {t.name}
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] font-mono font-medium">
                         {t.category}
                       </span>
                     </td>
@@ -359,17 +367,17 @@ export const SecurityTestLabView: React.FC = () => {
                       <span
                         className={`text-[10px] px-2 py-0.5 rounded border uppercase font-bold inline-flex items-center gap-1 ${
                           t.passed
-                            ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
-                            : 'bg-rose-950/60 border-rose-800 text-rose-400'
+                            ? 'bg-green-50 border-green-200 text-[#16A34A]'
+                            : 'bg-red-50 border-red-200 text-[#DC2626]'
                         }`}
                       >
                         {t.passed ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
                         <span>{t.passed ? 'PASSED' : 'FAILED'}</span>
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-300 max-w-xs">{t.expected}</td>
-                    <td className="py-3 px-4 text-emerald-300 max-w-xs">{t.actual}</td>
-                    <td className="py-3 px-4 text-slate-400 text-[11px] max-w-xs truncate">
+                    <td className="py-3 px-4 text-[#64748B] max-w-xs">{t.expected}</td>
+                    <td className="py-3 px-4 text-[#16A34A] font-medium max-w-xs">{t.actual}</td>
+                    <td className="py-3 px-4 text-[#64748B] text-[11px] font-mono max-w-xs truncate">
                       {t.notes}
                     </td>
                   </tr>
@@ -382,34 +390,34 @@ export const SecurityTestLabView: React.FC = () => {
 
       {/* Tab 2: Master 34-Test Platform Suite */}
       {activeTab === 'master_34' && (
-        <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+        <div className="rounded-xl bg-white border border-[#E2E8F0] shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-slate-950/70 border-b border-slate-800 text-slate-400 text-[11px]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] text-[11px] uppercase tracking-wider">
                 <tr>
-                  <th className="py-3 px-4 font-semibold">TEST ID</th>
-                  <th className="py-3 px-4 font-semibold">SECURITY OBJECTIVE</th>
-                  <th className="py-3 px-4 font-semibold">STATUS</th>
-                  <th className="py-3 px-4 font-semibold">EXPECTED BEHAVIOR</th>
-                  <th className="py-3 px-4 font-semibold">ACTUAL VERIFIED RESULT</th>
-                  <th className="py-3 px-4 font-semibold">EVIDENCE NOTE</th>
+                  <th className="py-3 px-4 font-semibold">Test ID</th>
+                  <th className="py-3 px-4 font-semibold">Security Objective</th>
+                  <th className="py-3 px-4 font-semibold">Status</th>
+                  <th className="py-3 px-4 font-semibold">Expected Behavior</th>
+                  <th className="py-3 px-4 font-semibold">Actual Verified Result</th>
+                  <th className="py-3 px-4 font-semibold">Evidence Note</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-[#E2E8F0]">
                 {masterResults.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-4 font-bold text-indigo-400 whitespace-nowrap">
+                  <tr key={t.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-mono font-bold text-[#2563EB] whitespace-nowrap">
                       #{t.id.toString().padStart(2, '0')}
                     </td>
-                    <td className="py-3 px-4 text-white font-semibold whitespace-nowrap">
+                    <td className="py-3 px-4 text-[#172554] font-semibold whitespace-nowrap">
                       {t.name}
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
                       <span
                         className={`text-[10px] px-2 py-0.5 rounded border uppercase font-bold inline-flex items-center gap-1 ${
                           t.status === 'PASSED'
-                            ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
-                            : 'bg-rose-950/60 border-rose-800 text-rose-400'
+                            ? 'bg-green-50 border-green-200 text-[#16A34A]'
+                            : 'bg-red-50 border-red-200 text-[#DC2626]'
                         }`}
                       >
                         {t.status === 'PASSED' ? (
@@ -420,9 +428,9 @@ export const SecurityTestLabView: React.FC = () => {
                         <span>{t.status}</span>
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-300 max-w-xs">{t.expected}</td>
-                    <td className="py-3 px-4 text-emerald-300 max-w-xs">{t.actual}</td>
-                    <td className="py-3 px-4 text-slate-400 text-[11px] max-w-xs truncate">
+                    <td className="py-3 px-4 text-[#64748B] max-w-xs">{t.expected}</td>
+                    <td className="py-3 px-4 text-[#16A34A] font-medium max-w-xs">{t.actual}</td>
+                    <td className="py-3 px-4 text-[#64748B] text-[11px] font-mono max-w-xs truncate">
                       {t.details}
                     </td>
                   </tr>
@@ -435,45 +443,45 @@ export const SecurityTestLabView: React.FC = () => {
 
       {/* Tab 3: V2.6 Adaptive UI & Viewport Verification Checks */}
       {activeTab === 'v26_responsive' && (
-        <div className="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+        <div className="rounded-xl bg-white border border-[#E2E8F0] shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-slate-950/70 border-b border-slate-800 text-slate-400 text-[11px]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#64748B] text-[11px] uppercase tracking-wider">
                 <tr>
-                  <th className="py-3 px-4 font-semibold">CHECK #</th>
-                  <th className="py-3 px-4 font-semibold">VIEWPORT SPECIFICATION</th>
-                  <th className="py-3 px-4 font-semibold">CHECK NAME</th>
-                  <th className="py-3 px-4 font-semibold">CATEGORY</th>
-                  <th className="py-3 px-4 font-semibold">STATUS</th>
-                  <th className="py-3 px-4 font-semibold">VERIFICATION DETAILS</th>
+                  <th className="py-3 px-4 font-semibold">Check #</th>
+                  <th className="py-3 px-4 font-semibold">Viewport Specification</th>
+                  <th className="py-3 px-4 font-semibold">Check Name</th>
+                  <th className="py-3 px-4 font-semibold">Category</th>
+                  <th className="py-3 px-4 font-semibold">Status</th>
+                  <th className="py-3 px-4 font-semibold">Verification Details</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-[#E2E8F0]">
                 {v26Results.map((c) => (
-                  <tr key={c.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3 px-4 font-bold text-indigo-400 whitespace-nowrap">
+                  <tr key={c.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-4 font-mono font-bold text-[#2563EB] whitespace-nowrap">
                       #{c.id.toString().padStart(2, '0')}
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-indigo-300 font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-[#EFF6FF] border border-blue-200 text-[#2563EB] font-mono font-bold text-[10px]">
                         {c.viewportLabel}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-white font-semibold">
+                    <td className="py-3 px-4 text-[#172554] font-semibold">
                       {c.name}
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] font-mono font-medium">
                         {c.category}
                       </span>
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded font-bold uppercase bg-emerald-950/60 border border-emerald-800 text-emerald-400">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                      <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border font-bold uppercase bg-green-50 border-green-200 text-[#16A34A]">
+                        <CheckCircle2 className="w-3 h-3 text-[#16A34A]" />
                         <span>{c.status}</span>
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-300 text-[11px] max-w-md">
+                    <td className="py-3 px-4 text-[#64748B] text-[11px] max-w-md">
                       {c.details}
                     </td>
                   </tr>
